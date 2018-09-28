@@ -1,0 +1,26 @@
+<h2 class="mb-3 mt-5">Ответы</h2>
+<div *ngIf="answers">
+  <div class="answers" *ngFor="let answer of answers" >
+    <div class="row answer">
+      <div class="col-md-1 pr-0">
+        <a routerLink="/system/author/{{answer.authorId}}"><img src="{{answer.authorAvatarUrl}}" width="100%"></a>
+      </div>
+      <div class="col-md-11">
+        <span class="title font-weight-bold"><a routerLink="/system/author/{{answer.authorId}}">{{answer.authorName}}</a></span>
+        <div class="date font-weight-light small">{{answer.date  | date:'medium' }}</div>
+
+        <div class="text e2e-inner-html-bound" [innerHTML]="answer.text">
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>
+<div>
+  <div>
+    <label>Text:</label> <textarea #textAnswer></textarea>
+  </div>
+  <button (click)="add(textAnswer.value); textAnswer.value=''">
+    Add
+  </button>
+</div>

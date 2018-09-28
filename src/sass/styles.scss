@@ -1,0 +1,68 @@
+/* You can add global styles to this file, and also import other style files */
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
+
+body, html, .container-fluid, .main-section
+{
+  min-height: calc(100vh - 48px);
+}
+
+.navbar {
+  background-color: $primary-bg;
+
+  .search-zone
+  {
+    background-color: $primary-bg-dark;
+
+  }
+  .search-field  {
+    background: url('../assets/img/search-icon.png') $primary-bg 14px 14px no-repeat ;
+    color: white;
+    height: 45px;
+    width: 100%;
+  }
+}
+.left-menu {
+  background-color: $primary-bg;
+  position: relative;
+  .top-section {
+    background-color: lighten( $primary-bg, 10% );
+    width: 100%;
+    flex: 0 0 16.66666667%;
+    max-width: 16.66666667%;
+    color: $gray-200;
+  }
+}
+
+.right-side {
+  background-color: $gray-200;
+}
+
+
+.main-section {
+  padding-top: 30px;
+  .answers {
+    .answer {
+      .date {
+        margin-bottom: 10px;
+      }
+    }
+  }
+  .author {
+    font-size: 1.2rem;
+    img {
+      border-radius: 20px;
+      width: 25px;
+      height: 25px;
+      border: 2px solid $primary;
+      vertical-align: -6px;
+    }
+  }
+}
+
+.e2e-inner-html-bound {
+  p {
+    margin-bottom: 0;
+  }
+}
+

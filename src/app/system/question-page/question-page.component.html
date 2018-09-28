@@ -1,0 +1,15 @@
+<div *ngIf="question">
+  <div class="author">
+    <a routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>
+    <a routerLink="/system/author/{{author.id}}" class="font-weight-bold mr-1 d-inline-block">{{author.name}}</a> <span class="date font-weight-light small">asked {{question.date  | date:'medium' }}</span>
+  </div>
+  <hr>
+  <h1 class="title">{{question.title}}</h1>
+
+  <div class="text" class="e2e-inner-html-bound" [innerHTML]="question.text">
+  </div>
+
+  <app-answers [qid]="question.id"></app-answers>
+  <br>
+</div>
+

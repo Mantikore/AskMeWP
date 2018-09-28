@@ -1,0 +1,47 @@
+<div class="alert alert-danger alert-dismissible fade show" *ngIf="error" role="alert" >
+  <strong>Warning!</strong>
+  {{error}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div *ngIf="!isLogged">
+  <h5 class="text-xs-center">Log In</h5>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+              type="text"
+              class="form-control underlined"
+              id="username"
+              placeholder="Input username"
+              formControlName="username"
+      >
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+              type="password"
+              class="form-control underlined"
+              id="password"
+              placeholder="Пароль"
+              formControlName="password"
+      >
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-block btn-primary">Log Me In</button>
+    </div>
+    <div class="form-group">
+      <span class="text-muted">Don't have an account? </span>
+      <a  [routerLink]="'/registration'">Sign Up</a>
+    </div>
+  </form>
+</div>
+<div *ngIf="isLogged">
+  Hello, <a  routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}"></a> <a  routerLink="/system/author/{{author.id}}">{{author.name}}</a> !
+  <br>
+  <button class="btn btn-primary" (click)="onLogOut()">Log Out</button>
+</div>
+

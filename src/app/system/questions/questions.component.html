@@ -1,0 +1,23 @@
+<section class="all-questions">
+
+  <div *ngFor="let question of questions" class="question">
+    <div class="d-flex">
+      <a class="views rounded mr-3 d-block" [class.inactive]="question.answers === 0" routerLink="/system/question/{{question.id}}">
+        <img src="assets/img/icon-ok.png" class="align-baseline"><strong> {{ question.answers }}</strong>
+        {{  pluralizeAnswers(question.answers) }}
+      </a>
+      <div class="text w-100">
+        <h5 class="title"><a routerLink="/system/question/{{question.id}}">{{question.title}}</a></h5>
+        <div class="description" class="e2e-inner-html-bound" [innerHTML]="question.text | appReadMore">
+        </div>
+        <a *ngIf="question.text.length > 400" class="d-inline-block w-100" routerLink="/system/question/{{question.id}}">Read More</a>
+        <div class="author float-right">
+          Asked {{question.date | date:'medium'}} <a routerLink="/system/author/{{question.author.id}}" class="d-inline-block ml-2"><img src="{{question.author.avatarUrl}}"></a> <a routerLink="/system/author/{{question.author.id}}" class="author">{{question.author.name}}</a>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+  </div>
+
+</section>

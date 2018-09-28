@@ -1,0 +1,5 @@
+<h5>Most Active Users</h5>
+<div *ngFor="let author of authors" class="author">
+  <a href="" class="d-inline-block mr-2"><img src="{{author.avatarUrl}}"></a> <a routerLink="/system/author/{{author.id}}" class="author">{{author.name}}</a>
+  <hr>
+</div>

@@ -1,0 +1,52 @@
+@import "src/sass/_variables.scss";
+@import "~bootstrap/scss/bootstrap";
+
+.all-questions {
+  .title a {
+    color: $black;
+    font-weight: 700;
+  }
+  .question {
+    display: block;
+    .views {
+      background-color: $green;
+      width: 70px;
+      height: 70px;
+      padding: 10px;
+      text-align: center;
+      color: $white;
+      font-size: 0.8em;
+
+      strong {
+        font-size: 1.6em;
+      }
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    .inactive {
+      background-color: gray;
+      img {
+        display: none;
+      }
+    }
+    .author {
+      font-size:0.8rem;
+      color: $gray-500;
+      img {
+        border-radius: 20px;
+        width: 25px;
+        height: 25px;
+        border: 2px solid $primary;
+        vertical-align: -6px;
+        margin-right: 5px;
+      }
+      a {
+        font-weight: bold;
+        color: $primary;
+      }
+    }
+  }
+}
+

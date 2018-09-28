@@ -1,0 +1,16 @@
+<div class="author">
+  <a routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>
+  <a routerLink="/system/author/{{author.id}}" class="font-weight-bold mr-1 d-inline-block">{{author.name}}</a>
+</div>
+<h3>Questions</h3>
+<div class="all-questions">
+  <div *ngFor="let question of questions" class="question">
+    <div class="d-flex">
+      <div class="text w-100">
+        <h5 class="title"><a routerLink="/system/question/{{question.id}}">{{question.title}}</a></h5>
+        <div class="description" class="e2e-inner-html-bound" [innerHTML]="question.text | appReadMore: 200">
+        </div>
+      </div>
+    </div>
+</div>
+  <h3>Answers</h3>

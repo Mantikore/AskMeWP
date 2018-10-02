@@ -8,7 +8,7 @@ import { map } from 'rxjs/internal/operators';
     providedIn: 'root'
 })
 export class AuthService {
-    private isAuthenticated = false;
+    private meUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me';
     author = new Author();
 
     constructor(
@@ -17,27 +17,37 @@ export class AuthService {
     ) {
     }
 
-    tryLogin() {
+    // tryLogin() {
+    //     const username = window.localStorage.getItem('username');
+    //     const password = window.localStorage.getItem('password');
+    //     const httpOptions = {
+    //         headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( username + ':' + password ) })
+    //     };
+    //     return this.authorsService.getAuthorByUsername(username, httpOptions);
+    // }
+    getMe() {
         const username = window.localStorage.getItem('username');
         const password = window.localStorage.getItem('password');
         const httpOptions = {
             headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( username + ':' + password ) })
         };
-        return this.authorsService.getAuthorByUsername(username, httpOptions);
+        return this.http.get(this.meUrl, httpOptions);
     }
 
     login() {
-        this.isAuthenticated = true;
         window.localStorage.setItem('isLogged', 'true');
     }
 
     logout() {
-        this.isAuthenticated = false;
         window.localStorage.clear();
     }
 
-    isLoggedIn(): boolean {
-        return this.isAuthenticated;
+    isLogged(): boolean {
+        if (window.localStorage.getItem('isLogged')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

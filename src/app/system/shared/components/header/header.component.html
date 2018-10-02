@@ -4,6 +4,6 @@
     <app-search></app-search>
   </div>
   <div class="col-lg-3 p-2">
-    <button type="button" class="btn btn-primary btn-lg btn-block">Ask Question</button>
+    <button *ngIf="isLoggedIn" type="button" class="btn btn-primary btn-lg btn-block">Ask Question</button>
   </div>
 </nav>

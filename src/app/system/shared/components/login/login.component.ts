@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -17,8 +17,10 @@ export class LoginComponent implements OnInit {
     form: FormGroup;
     author = new Author();
     isLogged = false;
-    user;
+    user = {};
     error = '';
+
+    @Output() loginEmitter = new EventEmitter<boolean>();
 
     constructor(
         private  authService: AuthService,
@@ -34,45 +36,47 @@ export class LoginComponent implements OnInit {
             'password': new FormControl(null, [Validators.required, Validators.minLength(6)])
         });
 
-        this.isLogged = Boolean(window.localStorage.getItem('isLogged'));
+        this.isLogged = this.authService.isLogged();
 
         if (this.isLogged) {
-            this.user = JSON.parse(window.localStorage.getItem('user'));
-            this.author.id = this.user.id;
-            this.author.name = this.user.name;
-            this.author.avatarUrl = this.user.avatar_urls['96'];
+            this.user = this.authService.getMe().subscribe(me => {
+                this.author.id = me['id'];
+                this.author.name = me['name'];
+                this.author.avatarUrl = me['avatar_urls']['96'];
+            });
         }
-        console.log(this.isLogged);
     }
 
-    onSubmit() {
+    onLogIn() {
         const formData = this.form.value;
+        this.error = '';
         window.localStorage.setItem('username', formData.username);
         window.localStorage.setItem('password', formData.password);
-        this.authService.tryLogin().subscribe(user => {
+        this.authService.getMe().subscribe(user => {
             const author = new Author();
-            author.id = user.id;
-            author.name = user.name;
-            author.avatarUrl = user.avatar_urls['96'];
+            author.id = user['id'];
+            author.name = user['name'];
+            author.avatarUrl = user['avatar_urls']['96'];
             this.authService.login();
             window.localStorage.setItem('user', JSON.stringify(user));
-            console.log(author);
             this.isLogged = true;
+            this.loginEmitter.emit(this.isLogged);
             return this.author = author;
         }, error => {
+            this.authService.logout();
             if (error.error.code = 'invalid_username')  {
-                this.error = 'This username doesn\'t exist';
+                return this.error = 'This username doesn\'t exist';
             }
             if (error.error.code = 'invalid_password') {
-                this.error = 'Password is incorrect';
+                return this.error = 'Password is incorrect';
             }
-            this.authService.logout();
         });
     }
 
     onLogOut() {
         this.authService.logout();
         this.isLogged = false;
+        this.loginEmitter.emit(this.isLogged);
         this.author = new Author();
     }
 }

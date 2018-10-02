@@ -2,6 +2,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnswersService } from '../shared/services/answers.service';
 import { Answer } from '../shared/models/answer';
+import { AuthService } from '../shared/services/auth.service';
+import { Observable, of } from 'rxjs';
 
 
 @Component({
@@ -13,12 +15,18 @@ export class AnswersComponent implements OnInit {
 
     @Input() qid: number;
     answers: Answer[];
+    isLogged: Boolean;
 
-    constructor(private route: ActivatedRoute, private answersService: AnswersService) {
+    constructor(
+        private route: ActivatedRoute,
+        private answersService: AnswersService,
+        private authService: AuthService
+    ) {
     }
     getAnswers() {
         this.answersService.getAnswers(this.qid).subscribe(data => {
             const answers = [];
+            this.isLogged = this.authService.isLogged();
             for (const item of Object.values(data)) {
                 const answer = new Answer();
                 answer.id = item['id'];
@@ -48,6 +56,14 @@ export class AnswersComponent implements OnInit {
         }
     }
     ngOnInit() {
+
         this.getAnswers();
+        of(this.authService.isLogged()).subscribe(bool => {
+            if (bool) {
+                this.isLogged = true;
+            } else {
+                this.isLogged = false;
+            }
+        });
     }
 }

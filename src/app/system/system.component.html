@@ -1,9 +1,9 @@
-<app-header></app-header>
+<app-header [isLoggedIn]="isLoggedIn"></app-header>
 <div class="container-fluid pt-5 h-100">
     <div class="row">
         <div class="col-lg-2 left-menu p-0 pt-2">
             <div class="top-section p-3 m-0 position-fixed ">
-                <app-login></app-login>
+                <app-login (loginEmitter)="updateLoginStatus($event)"></app-login>
             </div>
         </div>
         <div class="col-lg-7 main-section">

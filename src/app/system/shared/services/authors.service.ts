@@ -25,8 +25,8 @@ export class AuthorsService {
         return this.http.get(this.authorPostsUrl + id);
     }
 
-    getAuthorByUsername(username, httpOptions) {
-        return this.http.get(this.authorsUrl + '?slug=' + username, httpOptions).pipe(map(data => data[0] ? data[0] : undefined));
+    getAuthorByUsername(username) {
+        return this.http.get(this.authorsUrl + '?slug=' + username).pipe(map(data => data[0] ? data[0] : undefined));
     }
 
     getMe() {

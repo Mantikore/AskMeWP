@@ -66,3 +66,22 @@ body, html, .container-fluid, .main-section
   }
 }
 
+.form-group {
+  &.has-error {
+    .form-help-text {
+      color: #fb494d;
+      font-size: 13px
+    }
+    .form-control {
+      border-color: #fb494d
+    }
+  }
+  &.has-success {
+    .form-help-text {
+      color: #8cde33;
+      font-size: 13px
+    }
+  }
+}
+
+

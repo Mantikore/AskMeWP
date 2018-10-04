@@ -1,44 +1,55 @@
-<div class="alert alert-danger alert-dismissible fade show" *ngIf="error" role="alert" >
-  <strong>Warning!</strong>
-  {{error}}
+<div class="alert alert-{{message.type}}" *ngIf="message.text" role="alert">
+    {{message.text}}
 </div>
 
 <div *ngIf="!isLogged">
-  <h5 class="text-xs-center">Log In</h5>
+    <h5 class="text-xs-center">Log In</h5>
 
-  <form [formGroup]="form">
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input
-              type="text"
-              class="form-control underlined"
-              id="username"
-              placeholder="Input username"
-              formControlName="username"
-      >
-    </div>
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input
-              type="password"
-              class="form-control underlined"
-              id="password"
-              placeholder="Пароль"
-              formControlName="password"
-      >
-    </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-block btn-primary" (click)="onLogIn()">Log Me In</button>
-    </div>
-    <div class="form-group">
-      <span class="text-muted">Don't have an account? </span>
-      <a  [routerLink]="'/registration'">Sign Up</a>
-    </div>
-  </form>
+    <form [formGroup]="form">
+        <div class="form-group"
+             [ngClass]="{'has-error' : form.get('username').invalid && form.get('username').touched}">
+            <label for="username">Username</label>
+            <input
+                    type="text"
+                    class="form-control underlined"
+                    id="username"
+                    placeholder="Input username"
+                    formControlName="username"
+            >
+            <span class="form-help-text" *ngIf="form.get('username').invalid && form.get('username').touched">
+                <span *ngIf="form.get('username')['errors']['required']">Username cannot be empty</span>
+            </span>
+        </div>
+
+        <div class="form-group"
+             [ngClass]="{'has-error' : form.get('password').invalid && form.get('password').touched}"
+        >
+            <label for="password">Password</label>
+            <input
+                    type="password"
+                    class="form-control underlined"
+                    id="password"
+                    placeholder="Пароль"
+                    formControlName="password"
+            >
+            <span class="form-help-text" *ngIf="form.get('password').invalid && form.get('password').touched">
+                <span *ngIf="form.get('password')['errors']['required']">Password cannot be empty</span>
+                <span *ngIf="form.get('password')['errors']['minlength']">Password must contains at least {{ form.get('password')['errors']['minlength']['requiredLength'] }} symbols. You have typed {{ form.get('password')['errors']['minlength']['actualLength'] }} symbols</span>
+            </span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-block btn-primary" (click)="onLogIn()" [disabled]="form.invalid">Log Me In</button>
+        </div>
+        <div class="form-group">
+            <span class="text-muted">Don't have an account? </span>
+            <a [routerLink]="'/registration'">Sign Up</a>
+        </div>
+    </form>
 </div>
 <div *ngIf="isLogged">
-  Hello, <a  routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}"></a> <a  routerLink="/system/author/{{author.id}}">{{author.name}}</a> !
-  <br>
-  <button class="btn btn-primary mt-3" (click)="onLogOut()">Log Out</button>
+    Hello, <a routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}"></a> <a
+        routerLink="/system/author/{{author.id}}">{{author.name}}</a> !
+    <br>
+    <button class="btn btn-primary mt-3" (click)="onLogOut()">Log Out</button>
 </div>
 

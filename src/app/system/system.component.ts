@@ -1,22 +1,15 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 
 @Component({
     selector: 'app-system',
     templateUrl: './system.component.html'
 })
-export class SystemComponent implements OnInit {
+export class SystemComponent {
 
-    isLoggedIn = Boolean(window.localStorage.getItem('isLogged'));
+    isLoggedIn = Boolean(window.localStorage.getItem('hasNewQuestionButton'));
 
     updateLoginStatus($event: Event) {
-        if ($event) {
-            this.isLoggedIn = true;
-        } else {
-            this.isLoggedIn = false;
-        }
+        $event ? this.isLoggedIn = true : this.isLoggedIn = false;
     }
 
-    ngOnInit() {
-
-    }
 }

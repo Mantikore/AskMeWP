@@ -56,14 +56,7 @@ export class AnswersComponent implements OnInit {
         }
     }
     ngOnInit() {
-
         this.getAnswers();
-        of(this.authService.isLogged()).subscribe(bool => {
-            if (bool) {
-                this.isLogged = true;
-            } else {
-                this.isLogged = false;
-            }
-        });
+        this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged);
     }
 }

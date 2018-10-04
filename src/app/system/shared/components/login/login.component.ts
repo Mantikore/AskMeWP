@@ -6,6 +6,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AuthorsService } from '../../services/authors.service';
 import { AuthService } from '../../services/auth.service';
 import { Author } from '../../models/author';
+import { Message } from '../../models/message.model';
 
 @Component({
     selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
     isLogged = false;
     user = {};
     error = '';
+    message: Message;
 
     @Output() loginEmitter = new EventEmitter<boolean>();
 
@@ -31,9 +33,10 @@ export class LoginComponent implements OnInit {
 
     ngOnInit() {
 
+        this.message = new Message('danger', '');
         this.form = new FormGroup({
-            'username': new FormControl(),
-            'password': new FormControl(null, [Validators.required, Validators.minLength(6)])
+            'username': new FormControl(null, [Validators.required]),
+            'password': new FormControl(null, [Validators.required, Validators.minLength(4)])
         });
 
         this.isLogged = this.authService.isLogged();
@@ -65,10 +68,10 @@ export class LoginComponent implements OnInit {
         }, error => {
             this.authService.logout();
             if (error.error.code = 'invalid_username')  {
-                return this.error = 'This username doesn\'t exist';
+                this.showMessage('This username doesn\'t exist');
             }
             if (error.error.code = 'invalid_password') {
-                return this.error = 'Password is incorrect';
+                this.showMessage('Password is incorrect');
             }
         });
     }
@@ -78,5 +81,12 @@ export class LoginComponent implements OnInit {
         this.isLogged = false;
         this.loginEmitter.emit(this.isLogged);
         this.author = new Author();
+    }
+
+    private showMessage(text: string, type: string = 'danger') {
+        this.message = new Message(type, text);
+        window.setTimeout(() => {
+            this.message.text = '';
+        }, 5000);
     }
 }

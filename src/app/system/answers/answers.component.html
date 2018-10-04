@@ -1,4 +1,4 @@
-<h2 class="mb-3 mt-5">Ответы</h2>
+<h2 class="mb-3 mt-5">Answers</h2>
 <div *ngIf="answers">
   <div class="answers" *ngFor="let answer of answers" >
     <div class="row answer">
@@ -17,10 +17,11 @@
   </div>
 </div>
 <div *ngIf="isLogged">
-  <div>
-    <label>Text:</label> <textarea #textAnswer></textarea>
+  <h4>Add answer:</h4>
+  <div class="w-100">
+    <textarea #textAnswer class="w-100" rows="5"></textarea>
   </div>
-  <button (click)="add(textAnswer.value); textAnswer.value=''">
-    Add
+  <button class="btn btn-primary float-right"(click)="add(textAnswer.value); textAnswer.value=''">
+    Add Answer
   </button>
 </div>

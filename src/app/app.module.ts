@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './system/shared/services/auth.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
     declarations: [
         AppComponent
@@ -13,9 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        HttpClientModule,
-        FormsModule,
-        ReactiveFormsModule
+        HttpClientModule
     ],
     providers: [AuthService],
     bootstrap: [AppComponent]

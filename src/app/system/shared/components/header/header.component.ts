@@ -5,14 +5,6 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-  @Input() isLoggedIn: boolean;
-
-  constructor() { }
-
-  ngOnInit() {
-    console.log(this.isLoggedIn);
-  }
-
-
+export class HeaderComponent {
+  @Input() hasNewQuestionButton: boolean;
 }

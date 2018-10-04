@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthorsService } from './authors.service';
 import { Author } from '../models/author';
-import { map } from 'rxjs/internal/operators';
+import { BehaviorSubject, Observable } from 'rxjs/index';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
     private meUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me';
+    private isLoggedIn = new BehaviorSubject<boolean>(false);
+    isLoggedIn$ = this.isLoggedIn.asObservable();
+
     author = new Author();
 
     constructor(
-        private http: HttpClient,
-        private authorsService: AuthorsService
+        private http: HttpClient
     ) {
     }
 
@@ -25,7 +26,7 @@ export class AuthService {
     //     };
     //     return this.authorsService.getAuthorByUsername(username, httpOptions);
     // }
-    getMe() {
+    getMe(): Observable<any> {
         const username = window.localStorage.getItem('username');
         const password = window.localStorage.getItem('password');
         const httpOptions = {
@@ -34,12 +35,14 @@ export class AuthService {
         return this.http.get(this.meUrl, httpOptions);
     }
 
-    login() {
+    login(): void {
         window.localStorage.setItem('isLogged', 'true');
+        this.isLoggedIn.next(true);
     }
 
-    logout() {
+    logout(): void {
         window.localStorage.clear();
+        this.isLoggedIn.next(false);
     }
 
     isLogged(): boolean {
@@ -49,5 +52,4 @@ export class AuthService {
             return false;
         }
     }
-
 }

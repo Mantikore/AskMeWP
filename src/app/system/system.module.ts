@@ -15,13 +15,14 @@ import { ReadMorePipe } from './shared/pipes/readmore.pipe';
 import { AuthorPageComponent } from './author-page/author-page.component';
 import { SearchComponent } from './shared/components/search/search.component';
 import { LoginComponent } from './shared/components/login/login.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         SystemRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        FormsModule
     ],
     declarations: [
         HeaderComponent,

@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
         this.isLogged = this.authService.isLogged();
 
         if (this.isLogged) {
+            this.loginEmitter.emit(this.isLogged);
             this.user = this.authService.getMe().subscribe(me => {
                 this.author.id = me['id'];
                 this.author.name = me['name'];

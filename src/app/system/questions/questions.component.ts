@@ -7,6 +7,7 @@ import { AuthorsService } from '../shared/services/authors.service';
 import { combineLatest } from 'rxjs/index';
 import { map } from 'rxjs/operators';
 import { switchMap } from 'rxjs/operators';
+import { Categorie } from '../shared/models/categorie';
 
 @Component({
   selector: 'app-questions',
@@ -16,6 +17,7 @@ import { switchMap } from 'rxjs/operators';
 export class QuestionsComponent implements OnInit {
 
     questions: Question[];
+
 
     constructor(private questionsService: QuestionsService) {
     }
@@ -42,55 +44,6 @@ export class QuestionsComponent implements OnInit {
             }
             return this.questions = questions;
         });
-
-        // this.questionsService.getQuestions().pipe(map(
-        //     data => {
-        //         let questions = [];
-        //         for (const item of Object.values(data)) {
-        //             const question = new Question();
-        //             const author = new Author();
-        //             const answersObs = this.answersService.getAnswers(item['id']);
-        //             const authorObs = this.authorsService.getAuthor(item['author']);
-        //             combineLatest(answersObs, authorObs).subscribe(([answersData, authorData]) => {
-        //                 question.id = item['id'];
-        //                 question.title = item['title']['rendered'];
-        //                 question.text = item['content']['rendered'];
-        //                 question.answers = answersData.length;
-        //                 question.date = item['date'];
-        //                 author.id = item['author'];
-        //                 author.name = authorData.name;
-        //                 author.avatarUrl = authorData.avatar_urls['96'];
-        //                 question.author = author;
-        //                 questions.push(question);
-        //             });
-        //         }
-        //         return questions;
-        //     })).subscribe(questions => this.questions = questions);
-
-        // this.questionsService.getQuestions().subscribe(data => {
-        //   const questions = [];
-        //   for (const item of Object.values(data)) {
-        //     const question = new Question();
-        //     const author = new Author();
-        //     const answersObs = this.answersService.getAnswers(item['id']);
-        //     const authorObs = this.authorsService.getAuthor(item['author']);
-        //     combineLatest(answersObs, authorObs).subscribe(([answersData, authorData]) => {
-        //         question.id = item['id'];
-        //         question.title = item['title']['rendered'];
-        //         question.text = item['content']['rendered'];
-        //         question.answers = answersData.length;
-        //         question.date = item['date'];
-        //         author.id = item['author'];
-        //         author.name = authorData.name;
-        //         author.avatarUrl = authorData.avatar_urls['96'];
-        //         question.author = author;
-        //         questions.push(question);
-        //     });
-        //   }
-        //
-        //   return this.questions = questions;
-        // });
-
     }
     pluralizeAnswers(num) {
         return num === 1 ? 'answer' : 'answers';

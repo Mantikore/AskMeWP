@@ -16,6 +16,7 @@ import { AuthorPageComponent } from './author-page/author-page.component';
 import { SearchComponent } from './shared/components/search/search.component';
 import { LoginComponent } from './shared/components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoriesComponent } from './shared/components/categories/categories.component';
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ReadMorePipe,
         AuthorPageComponent,
         SearchComponent,
-        LoginComponent
+        LoginComponent,
+        CategoriesComponent
     ],
     providers: [
         QuestionsService,

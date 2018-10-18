@@ -17,6 +17,7 @@ import { SearchComponent } from './shared/components/search/search.component';
 import { LoginComponent } from './shared/components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CategoriesComponent } from './shared/components/categories/categories.component';
+import { AddQuestionComponent } from './add-question/add-question.component';
 
 @NgModule({
     imports: [
@@ -38,7 +39,8 @@ import { CategoriesComponent } from './shared/components/categories/categories.c
         AuthorPageComponent,
         SearchComponent,
         LoginComponent,
-        CategoriesComponent
+        CategoriesComponent,
+        AddQuestionComponent
     ],
     providers: [
         QuestionsService,

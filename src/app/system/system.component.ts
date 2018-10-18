@@ -6,7 +6,7 @@ import { Component} from '@angular/core';
 })
 export class SystemComponent {
 
-    isLoggedIn = Boolean(window.localStorage.getItem('hasNewQuestionButton'));
+    isLoggedIn: boolean;
 
     updateLoginStatus($event: Event) {
         $event ? this.isLoggedIn = true : this.isLoggedIn = false;

@@ -18,14 +18,6 @@ export class AuthService {
     ) {
     }
 
-    // tryLogin() {
-    //     const username = window.localStorage.getItem('username');
-    //     const password = window.localStorage.getItem('password');
-    //     const httpOptions = {
-    //         headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( username + ':' + password ) })
-    //     };
-    //     return this.authorsService.getAuthorByUsername(username, httpOptions);
-    // }
     getMe(): Observable<any> {
         const username = window.localStorage.getItem('username');
         const password = window.localStorage.getItem('password');

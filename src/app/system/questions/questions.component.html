@@ -1,3 +1,6 @@
+<div *ngIf="category" class="categorie-tag">
+  <img src="assets/img/{{category.slug}}.png" /> <span>{{category.name}}</span>
+</div>
 <section class="all-questions">
 
   <div *ngFor="let question of questions" class="question">

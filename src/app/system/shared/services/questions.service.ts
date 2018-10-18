@@ -8,7 +8,6 @@ import { Observable } from 'rxjs/index';
 export class QuestionsService {
     private questionsUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts';
     private questionsEmbedUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts?&_embed';
-    private categoriesUrl = 'http://localhost/angularwp/wp-json/wp/v2/categories';
 
     constructor(
         private http: HttpClient
@@ -24,9 +23,5 @@ export class QuestionsService {
 
     getQuestionsEmbed(): Observable<any> {
         return this.http.get(this.questionsEmbedUrl);
-    }
-
-    getQuestionCategories(id: number): Observable<any> {
-        return this.http.get(`${this.categoriesUrl}?post=${id}`);
     }
 }

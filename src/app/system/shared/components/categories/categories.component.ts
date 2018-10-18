@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { QuestionsService } from '../../services/questions.service';
-import { Categorie } from '../../models/categorie';
+import { Category } from '../../models/category';
+import { CategoriesService } from '../../services/categories.service';
 
 @Component({
   selector: 'app-categories',
@@ -9,19 +10,19 @@ import { Categorie } from '../../models/categorie';
 })
 export class CategoriesComponent implements OnInit {
   @Input() question: number;
-  categories: Categorie[];
+  categories: Category[];
 
-  constructor(private questionsService: QuestionsService) { }
+  constructor(private categoriesService: CategoriesService) { }
 
   ngOnInit() {
-    this.questionsService.getQuestionCategories(this.question).subscribe(data => {
+    this.categoriesService.getQuestionCategories(this.question).subscribe(data => {
         const categories = [];
         for (const item of Object.values(data)) {
-            const categorie = new Categorie();
-            categorie.id = item['id'];
-            categorie.name = item['name'];
-            categorie.slug = item['slug'];
-            categories.push(categorie);
+            const category = new Category();
+            category.id = item['id'];
+            category.name = item['name'];
+            category.slug = item['slug'];
+            categories.push(category);
         }
         return this.categories = categories;
     });

@@ -18,7 +18,6 @@ export class AnswersComponent implements OnInit {
     isLogged: Boolean;
 
     constructor(
-        private route: ActivatedRoute,
         private answersService: AnswersService,
         private authService: AuthService
     ) {

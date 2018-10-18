@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionsService } from '../shared/services/questions.service';
 import { Question } from '../shared/models/question';
-import { AnswersService } from '../shared/services/answers.service';
 import { Author } from '../shared/models/author';
-import { AuthorsService } from '../shared/services/authors.service';
-import { combineLatest } from 'rxjs/index';
-import { map } from 'rxjs/operators';
-import { switchMap } from 'rxjs/operators';
-import { Categorie } from '../shared/models/categorie';
+import { ActivatedRoute } from '@angular/router';
+import { CategoriesService } from '../shared/services/categories.service';
+import { Category } from '../shared/models/category';
 
 @Component({
   selector: 'app-questions',
@@ -17,37 +14,58 @@ import { Categorie } from '../shared/models/categorie';
 export class QuestionsComponent implements OnInit {
 
     questions: Question[];
+    category: Category;
 
-
-    constructor(private questionsService: QuestionsService) {
-    }
+    constructor(
+        private questionsService: QuestionsService,
+        private route: ActivatedRoute,
+        private categoriesService: CategoriesService
+    ) {}
 
     ngOnInit() {
-        this.questionsService.getQuestionsEmbed().subscribe(data => {
-            const questions = [];
-            for (const item of Object.values(data)) {
-                const question = new Question();
-                const author = new Author();
-                question.id = item['id'];
-                question.title = item['title'].rendered;
-                question.text = item['excerpt'].rendered;
-                question.answers = 0;
-                if (item['_embedded'].replies) {
-                    question.answers = item['_embedded'].replies[0].length;
+        this.route.params.subscribe( params => {
+            const id = params.id;
+                if (id) {
+                    this.categoriesService.getCategory(id).subscribe(data => {
+                        this.getCategoryFromFata(data);
+                    });
+                    this.categoriesService.getQuestionsByCategory(id).subscribe(data => this.getQuestionsFromData(data));
+                } else {
+                    this.questionsService.getQuestionsEmbed().subscribe(data => this.getQuestionsFromData(data));
                 }
-                question.date = item['date'];
-                author.id = item['author'];
-                author.name = item['_embedded'].author[0].name;
-                author.avatarUrl = item['_embedded'].author[0].avatar_urls['96'];
-                question.author = author;
-                questions.push(question);
             }
-            return this.questions = questions;
-        });
+        );
     }
     pluralizeAnswers(num) {
         return num === 1 ? 'answer' : 'answers';
     }
-
+    getQuestionsFromData(data) {
+        this.questions = [];
+        for (const item of Object.values(data)) {
+            const question = new Question();
+            const author = new Author();
+            question.id = item['id'];
+            question.title = item['title'].rendered;
+            question.text = item['excerpt'].rendered;
+            question.answers = 0;
+            if (item['_embedded'].replies) {
+                question.answers = item['_embedded'].replies[0].length;
+            }
+            question.date = item['date'];
+            author.id = item['author'];
+            author.name = item['_embedded'].author[0].name;
+            author.avatarUrl = item['_embedded'].author[0].avatar_urls['96'];
+            question.author = author;
+            this.questions.push(question);
+        }
+        return this.questions;
+    }
+    getCategoryFromFata(data) {
+        this.category = new Category;
+        this.category.name = data.name;
+        this.category.slug = data.slug;
+        this.category.id = data.id;
+        return this.category;
+    }
 }
 

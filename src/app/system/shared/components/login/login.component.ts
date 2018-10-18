@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
     form: FormGroup;
     author = new Author();
-    isLogged = false;
+    isLogged: boolean;
     user = {};
     error = '';
     message: Message;
@@ -25,10 +25,7 @@ export class LoginComponent implements OnInit {
     @Output() loginEmitter = new EventEmitter<boolean>();
 
     constructor(
-        private  authService: AuthService,
-        private router: Router,
-        private route: ActivatedRoute,
-        private authorsService: AuthorsService
+        private authService: AuthService
     ) {}
 
     ngOnInit() {

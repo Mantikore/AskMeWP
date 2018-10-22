@@ -24,4 +24,10 @@ export class CategoriesService {
     getCategory(id: number): Observable<any> {
         return this.http.get(`${this.categoriesUrl}/${id}`);
     }
+    getAllCategories(): Observable<any> {
+        return this.http.get(this.categoriesUrl);
+    }
+    searchCategories(term): Observable<any> {
+        return this.http.get(`${this.categoriesUrl}?search=${term}`);
+    }
 }

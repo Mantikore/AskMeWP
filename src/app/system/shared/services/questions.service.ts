@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
+import { Router } from '@angular/router';
 
 
 
@@ -10,7 +11,8 @@ export class QuestionsService {
     private questionsEmbedUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts?&_embed';
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private router: Router
     ) {}
 
     getQuestions(): Observable<any> {
@@ -24,4 +26,17 @@ export class QuestionsService {
     getQuestionsEmbed(): Observable<any> {
         return this.http.get(this.questionsEmbedUrl);
     }
+    addQuestion(title: string, text: string) {
+        const httpOptions = {
+            headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( window.localStorage.getItem('username') + ':' + window.localStorage.getItem('password') ) })
+        };
+        return this.http.post(this.questionsUrl, {
+            slug: window.localStorage.getItem('username'),
+            title: title,
+            content: text,
+            date: new Date(),
+            status: 'publish'
+        }, httpOptions);
+    }
+
 }

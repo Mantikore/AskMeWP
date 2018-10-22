@@ -26,9 +26,7 @@ export class QuestionsComponent implements OnInit {
         this.route.params.subscribe( params => {
             const id = params.id;
                 if (id) {
-                    this.categoriesService.getCategory(id).subscribe(data => {
-                        this.getCategoryFromFata(data);
-                    });
+                    this.categoriesService.getCategory(id).subscribe(data => this.getCategoryFromData(data));
                     this.categoriesService.getQuestionsByCategory(id).subscribe(data => this.getQuestionsFromData(data));
                 } else {
                     this.questionsService.getQuestionsEmbed().subscribe(data => this.getQuestionsFromData(data));
@@ -46,7 +44,7 @@ export class QuestionsComponent implements OnInit {
             const author = new Author();
             question.id = item['id'];
             question.title = item['title'].rendered;
-            question.text = item['excerpt'].rendered;
+            question.text = item['content'].rendered;
             question.answers = 0;
             if (item['_embedded'].replies) {
                 question.answers = item['_embedded'].replies[0].length;
@@ -60,7 +58,7 @@ export class QuestionsComponent implements OnInit {
         }
         return this.questions;
     }
-    getCategoryFromFata(data) {
+    getCategoryFromData(data) {
         this.category = new Category;
         this.category.name = data.name;
         this.category.slug = data.slug;

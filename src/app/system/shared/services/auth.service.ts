@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs/index';
 })
 export class AuthService {
     private meUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me';
-    private isLoggedIn = new BehaviorSubject<boolean>(false);
+    private isLoggedIn = new BehaviorSubject<boolean>(this.isLogged());
     isLoggedIn$ = this.isLoggedIn.asObservable();
 
     author = new Author();

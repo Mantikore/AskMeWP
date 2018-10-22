@@ -3,7 +3,7 @@ import { Category } from '../shared/models/category';
 import { CategoriesService } from '../shared/services/categories.service';
 import { QuestionsService } from '../shared/services/questions.service';
 import { Router } from '@angular/router';
-import { fromEvent, Observable, Subject } from 'rxjs/index';
+import { Observable, Subject } from 'rxjs/index';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/internal/operators';
 
 @Component({
@@ -13,9 +13,8 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/internal/ope
 })
 export class AddQuestionComponent implements OnInit {
 
-  categories: Category[] = [];
+  categories = [];
   cats$: Observable<Category[]>;
-  newQuestion: number;
   private searchTerms = new Subject<string>();
 
   constructor(
@@ -31,7 +30,6 @@ export class AddQuestionComponent implements OnInit {
           distinctUntilChanged(),
           switchMap((term: string) => this.categoriesService.searchCategories(term)),
       );
-
   }
 
   search(term: string): void {
@@ -57,11 +55,11 @@ export class AddQuestionComponent implements OnInit {
       if (!text) {
           return ErrorEmpty();
       }
-      this.questionsService.addQuestion(title, text)
+      this.questionsService.addQuestion(title, text, this.categories)
           .subscribe(question => {
-              this.newQuestion = question['id'];
+              this.router.navigate([`system/question/${question['id']}`]);
           });
-      this.router.navigate(['system/questions']);
+
       function ErrorEmpty() {
           if (!text) {
               alert('Insert text!');
@@ -69,7 +67,7 @@ export class AddQuestionComponent implements OnInit {
       }
   }
   onClickCategory(cat) {
-      console.log(cat);
-      this.categories.push(cat.id);
+      this.categories.push(`${cat.id}`);
+      console.log(this.categories);
   }
 }

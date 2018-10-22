@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     error = '';
     message: Message;
 
-    @Output() loginEmitter = new EventEmitter<boolean>();
+    // @Output() loginEmitter = new EventEmitter<boolean>();
 
     constructor(
         private authService: AuthService
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         this.isLogged = this.authService.isLogged();
 
         if (this.isLogged) {
-            this.loginEmitter.emit(this.isLogged);
+            // this.loginEmitter.emit(this.isLogged);
             this.user = this.authService.getMe().subscribe(me => {
                 this.author.id = me['id'];
                 this.author.name = me['name'];
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
             this.authService.login();
             window.localStorage.setItem('user', JSON.stringify(user));
             this.isLogged = true;
-            this.loginEmitter.emit(this.isLogged);
+            // this.loginEmitter.emit(this.isLogged);
             return this.author = author;
         }, error => {
             this.authService.logout();
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
     onLogOut() {
         this.authService.logout();
         this.isLogged = false;
-        this.loginEmitter.emit(this.isLogged);
+        // this.loginEmitter.emit(this.isLogged);
         this.author = new Author();
     }
 

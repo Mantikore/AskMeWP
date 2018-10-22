@@ -4,6 +4,6 @@
     <app-search></app-search>
   </div>
   <div class="col-lg-3 p-2">
-    <button *ngIf="hasNewQuestionButton" type="button" class="btn btn-primary btn-lg btn-block" routerLink="/system/add-question">Ask Question</button>
+    <button *ngIf="isLogged" type="button" class="btn btn-primary btn-lg btn-block" routerLink="/system/add-question">Ask Question</button>
   </div>
 </nav>

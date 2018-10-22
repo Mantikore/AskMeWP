@@ -24,7 +24,7 @@ export class AnswersComponent implements OnInit {
     }
     getAnswers() {
         this.answersService.getAnswers(this.qid).subscribe(data => {
-            const answers = [];
+            this.answers = [];
             this.isLogged = this.authService.isLogged();
             for (const item of Object.values(data)) {
                 const answer = new Answer();
@@ -34,9 +34,9 @@ export class AnswersComponent implements OnInit {
                 answer.authorAvatarUrl = item['author_avatar_urls']['96'];
                 answer.authorName = item['author_name'];
                 answer.date = item['date'];
-                answers.push(answer);
+                this.answers.push(answer);
             }
-            return this.answers = answers;
+            return this.answers;
         });
     }
     add(text: string): void {

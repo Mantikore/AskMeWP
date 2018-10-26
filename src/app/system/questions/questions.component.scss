@@ -49,4 +49,20 @@
     }
   }
 }
+.category {
+  text-align: center;
+  margin: 2rem;
+  background-color: $gray-200;
+  padding: 2rem;
+  border-radius: 12rem;
+  display: inline-block;
+  width: 12rem;
+  height: 12rem;
+  line-height: 0.8;
+  img {
+    border-radius: 5px;
+    width: 70px;
+    height: 70px;
 
+  }
+}

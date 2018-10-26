@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SystemComponent } from './system/system.component';
 
 const routes: Routes = [
-    {path: '', redirectTo: 'system/questions', pathMatch: 'full'},
+    {path: '', redirectTo: 'system/questions/1', pathMatch: 'full'},
     {path: 'system', loadChildren: './system/system.module#SystemModule'},
 ];
 

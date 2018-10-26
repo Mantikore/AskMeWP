@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/index';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class CategoriesService {
     ) {}
 
     getQuestionsByCategory(id: number): Observable<any> {
-        return this.http.get(`${this.categoryPostsUrl}${id}`);
+        return this.http.get(`${this.categoryPostsUrl}${id}`, { observe: 'response' });
     }
 
     getQuestionCategories(id: number): Observable<any> {
@@ -23,9 +23,6 @@ export class CategoriesService {
     }
     getCategory(id: number): Observable<any> {
         return this.http.get(`${this.categoriesUrl}/${id}`);
-    }
-    getAllCategories(): Observable<any> {
-        return this.http.get(this.categoriesUrl);
     }
     searchCategories(term): Observable<any> {
         return this.http.get(`${this.categoriesUrl}?search=${term}`);

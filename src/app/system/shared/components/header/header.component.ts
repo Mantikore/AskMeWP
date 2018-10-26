@@ -8,7 +8,6 @@ import set = Reflect.set;
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-    // @Input() hasNewQuestionButton: boolean;
 
     isLogged: Boolean;
 

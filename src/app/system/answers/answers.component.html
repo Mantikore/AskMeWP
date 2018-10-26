@@ -1,5 +1,5 @@
-<h2 class="mb-3 mt-5">Answers</h2>
-<div *ngIf="answers">
+<div *ngIf="answers.length">
+  <h2 class="mb-3 mt-5">Answers</h2>
   <div class="answers" *ngFor="let answer of answers" >
     <div class="row answer">
       <div class="col-md-1 pr-0">
@@ -8,7 +8,6 @@
       <div class="col-md-11">
         <span class="title font-weight-bold"><a routerLink="/system/author/{{answer.authorId}}">{{answer.authorName}}</a></span>
         <div class="date font-weight-light small">{{answer.date  | date:'medium' }}</div>
-
         <div class="text e2e-inner-html-bound" [innerHTML]="answer.text">
         </div>
       </div>
@@ -16,6 +15,7 @@
     <hr>
   </div>
 </div>
+
 <div *ngIf="isLogged">
   <h4>Add answer:</h4>
   <div class="w-100">

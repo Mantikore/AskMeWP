@@ -14,7 +14,7 @@ import { Observable, of } from 'rxjs';
 export class AnswersComponent implements OnInit {
 
     @Input() qid: number;
-    answers: Answer[];
+    answers: Answer[] = [];
     isLogged: Boolean;
 
     constructor(

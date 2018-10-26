@@ -11,6 +11,7 @@ import { AddQuestionComponent } from './add-question/add-question.component';
 const routes: Routes = [
     {path: '', component: SystemComponent,  children: [
         {path: 'questions', component: QuestionsComponent},
+        {path: 'questions/:page', component: QuestionsComponent},
         {path: 'question/:id', component: QuestionPageComponent},
         {path: 'author/:id', component: AuthorPageComponent},
         {path: 'category/:id', component: QuestionsComponent},

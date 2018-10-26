@@ -5,9 +5,8 @@
   </div>
   <app-categories [question]="question.id"></app-categories>
   <hr>
-  <h1 class="title">{{question.title}}</h1>
-
-  <div class="text" class="e2e-inner-html-bound" [innerHTML]="question.text">
+  <h1 class="title mb-4">{{question.title}}</h1>
+  <div class="text" class="e2e-inner-html-bound mb-5" [innerHTML]="question.text">
   </div>
 
   <app-answers [qid]="question.id"></app-answers>

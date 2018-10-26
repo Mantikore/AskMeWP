@@ -16,16 +16,18 @@ import { AuthorPageComponent } from './author-page/author-page.component';
 import { SearchComponent } from './shared/components/search/search.component';
 import { LoginComponent } from './shared/components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CategoriesComponent } from './shared/components/categories/categories.component';
+import { CategoriesComponent } from './categories/categories.component';
 import { AddQuestionComponent } from './add-question/add-question.component';
+import { PaginatorComponent } from './shared/components/paginator/paginator.component';
+import { CategoriesService } from './shared/services/categories.service';
+import { AuthorsService } from './shared/services/authors.service';
 
 @NgModule({
     imports: [
         CommonModule,
         SystemRoutingModule,
         ReactiveFormsModule,
-        FormsModule
-    ],
+        FormsModule    ],
     declarations: [
         HeaderComponent,
         FooterComponent,
@@ -40,11 +42,15 @@ import { AddQuestionComponent } from './add-question/add-question.component';
         SearchComponent,
         LoginComponent,
         CategoriesComponent,
-        AddQuestionComponent
+        AddQuestionComponent,
+        PaginatorComponent
     ],
     providers: [
         QuestionsService,
-        AnswersService
+        AnswersService,
+        CategoriesService,
+        AuthorsService,
+        AuthorsService
     ],
     exports: [
         ReadMorePipe

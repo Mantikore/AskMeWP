@@ -1,6 +1,12 @@
-<div *ngIf="category" class="categorie-tag">
-  <img src="assets/img/{{category.slug}}.png" /> <span>{{category.name}}</span>
+<div *ngIf="category" class="w-100 text-center">
+  <div  class="category mb-5 ">
+    <img src="assets/img/{{category.slug}}.png" />
+    <h3>{{category.name}}</h3>
+    <span class="text-muted">{{questionsCount}} questions total</span>
+  </div>
+
 </div>
+
 <section class="all-questions">
 
   <div *ngFor="let question of questions" class="question">
@@ -20,7 +26,8 @@
       </div>
     </div>
     <app-categories [question]="question.id"></app-categories>
-
     <hr>
   </div>
 </section>
+
+<app-paginator [pages]="pages"></app-paginator>

@@ -1,0 +1,13 @@
+<nav aria-label="" class="d-flex justify-content-center" *ngIf="pages">
+  <ul class="pagination">
+    <li class="page-item" [class.disabled]="activePage === 1" >
+      <a class="page-link" routerLink="/system/{{pageName}}/{{activePage - 1}}" (click)="onPrevClick()" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item" [class.active]="page === activePage" *ngFor="let page of pagesArr">
+      <a class="page-link"  routerLink="/system/{{pageName}}/{{page}}" (click)="onPageClick(page)">{{page}}</a>
+    </li>
+    <li class="page-item" [class.disabled]="activePage === pages">
+      <a class="page-link" routerLink="/system/{{pageName}}/{{activePage + 1}}" (click)="onNextClick()">Next</a>
+    </li>
+  </ul>
+</nav>

@@ -11,31 +11,34 @@ export class QuestionsService {
     private questionsEmbedUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts?&_embed';
 
     constructor(
-        private http: HttpClient,
-        private router: Router
+        private http: HttpClient
     ) {}
-
-    getQuestions(): Observable<any> {
-        return this.http.get(this.questionsUrl);
-    }
 
     getQuestion(id: number): Observable<any> {
         return this.http.get(`${this.questionsUrl}/${id}`);
     }
 
     getQuestionsEmbed(): Observable<any> {
-        return this.http.get(this.questionsEmbedUrl);
+        return this.http.get(this.questionsEmbedUrl, {observe: 'response'});
     }
-    addQuestion(title: string, text: string) {
+    getQuestionsPage(page): Observable<any> {
+        return this.http.get(`${this.questionsEmbedUrl}&page=${page}`, {observe: 'response'});
+    }
+    addQuestion(title: string, text: string, categories) {
         const httpOptions = {
-            headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( window.localStorage.getItem('username') + ':' + window.localStorage.getItem('password') ) })
+            headers: new HttpHeaders({'Authorization' : 'Basic '
+                     + btoa( window.localStorage.getItem('username')
+                     + ':'
+                     + window.localStorage.getItem('password'))
+            })
         };
         return this.http.post(this.questionsUrl, {
             slug: window.localStorage.getItem('username'),
             title: title,
             content: text,
             date: new Date(),
-            status: 'publish'
+            status: 'publish',
+            categories: categories
         }, httpOptions);
     }
 

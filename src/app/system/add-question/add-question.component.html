@@ -11,13 +11,22 @@
   </div>
   <div class="form-group">
     <label for="cat">Categories</label>
-    <input type="text" #cat id="cat" placeholder="Add some categories" (keyup)="search(cat.value)">
-    <div class="text-black-50">
-      <li *ngFor="let cat of cats$ | async" >
-        <span (click)="onClickCategory(cat)">{{cat.name}}</span>
-      </li>
+    <br>
+    <input type="text" #cat id="cat" autocomplete="off" placeholder="Add some categories" (keyup)="search(cat.value)">
+    <div class="dropdown-menu d-block position-static float-none w-25" *ngIf="foundedCategories.length">
+      <a class="dropdown-item" (click)="onClickCategory(cat)"  *ngFor="let cat of foundedCategories"><img src="assets/img/{{cat.slug}}.png" /> {{cat.name}}</a>
     </div>
   </div>
+<div *ngIf="addedCategories.length">
+  <a *ngFor="let category of addedCategories" class="category-tag">
+    <img src="assets/img/{{category.slug}}.png" /> <span>{{category.name}}</span>
+    <button type="button" class="close" aria-label="Close" (click)="removeCategory(category)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </a>
+</div>
+
+
 
   <button class="btn btn-primary float-right" (click)="add(title.value, text.value)">
     Ask Question

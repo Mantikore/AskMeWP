@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
 import { AuthorsService } from './authors.service';
+import { switchMap } from 'rxjs/internal/operators';
 
 
 @Injectable({
@@ -20,6 +21,9 @@ export class AnswersService {
         const url = `${this.answersUrl}${id}`;
         const options = { params: new HttpParams().set('order', 'asc') }
         return this.http.get(url, options);
+    }
+    getAnswersCount(id: number): Observable<any> {
+        return this.http.get(this.answersUrl + id, {observe: 'response'});
     }
     addAnswer (text: string, qid: number): Observable<any> {
         const httpOptions = {

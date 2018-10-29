@@ -5,6 +5,7 @@ import { Author } from '../shared/models/author';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesService } from '../shared/services/categories.service';
 import { Category } from '../shared/models/category';
+import { AnswersService } from '../shared/services/answers.service';
 
 @Component({
   selector: 'app-questions',
@@ -21,7 +22,8 @@ export class QuestionsComponent implements OnInit {
     constructor(
         private questionsService: QuestionsService,
         private route: ActivatedRoute,
-        private categoriesService: CategoriesService
+        private categoriesService: CategoriesService,
+        private answersService: AnswersService
     ) {}
 
     ngOnInit() {
@@ -52,9 +54,7 @@ export class QuestionsComponent implements OnInit {
             question.title = item['title'].rendered;
             question.text = item['content'].rendered;
             question.answers = 0;
-            if (item['_embedded'].replies) {
-                question.answers = item['_embedded'].replies[0].length;
-            }
+            this.answersService.getAnswersCount(question.id).subscribe(count => question.answers = +count.headers.get('x-wp-total'));
             question.date = item['date'];
             author.id = item['author'];
             author.name = item['_embedded'].author[0].name;

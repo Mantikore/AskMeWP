@@ -10,7 +10,7 @@ export class PaginatorComponent implements OnChanges {
 
     @Input() pages: number;
     pagesArr = [];
-    i: number;
+
     activePage = +this.route.snapshot.paramMap.get('page');
     pageName;
 
@@ -19,12 +19,12 @@ export class PaginatorComponent implements OnChanges {
     }
 
     ngOnChanges() {
-      this.i = 1;
-      while (this.i <= this.pages) {
-          this.pagesArr.push(this.i);
-          this.i++;
+      let i = 1;
+      while (i <= this.pages) {
+          this.pagesArr.push(i);
+          i++;
       }
-      this.pageName = this.route.url;
+      this.pageName = this.route.url['_value']['0']['path'];
       console.log(this.pageName);
     }
 

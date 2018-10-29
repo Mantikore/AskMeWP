@@ -14,6 +14,7 @@ import { combineLatest } from 'rxjs/index';
 export class QuestionPageComponent implements OnInit {
     question: Question;
     author: Author;
+    answerPages: number;
 
     constructor(private route: ActivatedRoute,
                 private questionService: QuestionsService,

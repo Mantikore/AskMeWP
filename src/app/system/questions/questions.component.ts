@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CategoriesService } from '../shared/services/categories.service';
 import { Category } from '../shared/models/category';
 import { AnswersService } from '../shared/services/answers.service';
+import { combineLatest, merge } from 'rxjs/index';
 
 @Component({
   selector: 'app-questions',
@@ -27,20 +28,18 @@ export class QuestionsComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.route.params.subscribe( params => {
-            const page = params.page;
-            const id = params.id;
-                if (id) {
-                    this.categoriesService.getCategory(id).subscribe(data => this.getCategoryFromData(data));
-                    this.categoriesService.getQuestionsByCategory(id).subscribe(data => this.getQuestionsFromData(data));
-                } else if (page) {
-                    this.questionsService.getQuestionsPage(page).subscribe(data => this.getQuestionsFromData(data));
-                } else {
-                    this.questionsService.getQuestionsEmbed().subscribe(data => this.getQuestionsFromData(data));
-                }
+        combineLatest(this.route.queryParams, this.route.params).subscribe(([paramsPage, paramsId]) => {
+            const page = paramsPage.page;
+            const id = paramsId.id;
+            if (id) {
+                this.categoriesService.getCategory(id).subscribe(data => this.getCategoryFromData(data));
+                this.categoriesService.getQuestionsByCategory(id).subscribe(data => this.getQuestionsFromData(data));
+            } else if (page) {
+                this.questionsService.getQuestionsPage(page).subscribe(data => this.getQuestionsFromData(data));
+            } else {
+                this.questionsService.getQuestionsEmbed().subscribe(data => this.getQuestionsFromData(data));
             }
-        );
-
+        });
     }
     pluralizeAnswers(num) {
         return num === 1 ? 'answer' : 'answers';

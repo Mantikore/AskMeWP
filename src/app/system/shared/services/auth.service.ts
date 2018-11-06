@@ -8,6 +8,7 @@ import { BehaviorSubject, Observable } from 'rxjs/index';
 })
 export class AuthService {
     private meUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me';
+    private usersUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/register';
     private isLoggedIn = new BehaviorSubject<boolean>(this.isLogged());
     isLoggedIn$ = this.isLoggedIn.asObservable();
 
@@ -25,6 +26,20 @@ export class AuthService {
             headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( username + ':' + password ) })
         };
         return this.http.get(this.meUrl, httpOptions);
+    }
+
+    auth() {
+        return this.http.post(this.meUrl + '/login', {
+            username: window.localStorage.getItem('username'),
+            password: window.localStorage.getItem('password')
+        });
+    }
+    signUp(username, email, password): Observable<any> {
+        return this.http.post(this.usersUrl, {
+            username: username,
+            email: email,
+            password: password
+        });
     }
 
     login(): void {

@@ -1,12 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { ActivatedRoute, Params, Router } from '@angular/router';
-
-import { AuthorsService } from '../../services/authors.service';
 import { AuthService } from '../../services/auth.service';
 import { Author } from '../../models/author';
 import { Message } from '../../models/message.model';
+import { AuthorsService } from '../../services/authors.service';
 
 @Component({
     selector: 'app-login',
@@ -21,13 +19,15 @@ export class LoginComponent implements OnInit {
     user = {};
     error = '';
     message: Message;
+    signUpForm = false;
 
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private authorsService: AuthorsService
     ) {}
 
     ngOnInit() {
-
+        console.log(this.signUpForm);
         this.message = new Message('danger', '');
         this.form = new FormGroup({
             'username': new FormControl(null, [Validators.required]),
@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
         this.isLogged = this.authService.isLogged();
 
         if (this.isLogged) {
-            // this.loginEmitter.emit(this.isLogged);
-            this.user = this.authService.getMe().subscribe(me => {
+            const id = window.localStorage.getItem('id');
+            this.user = this.authorsService.getAuthor(+id).subscribe(me => {
                 this.author.id = me['id'];
                 this.author.name = me['name'];
                 this.author.avatarUrl = me['avatar_urls']['96'];
@@ -51,15 +51,17 @@ export class LoginComponent implements OnInit {
         this.error = '';
         window.localStorage.setItem('username', formData.username);
         window.localStorage.setItem('password', formData.password);
-        this.authService.getMe().subscribe(user => {
-            const author = new Author();
-            author.id = user['id'];
-            author.name = user['name'];
-            author.avatarUrl = user['avatar_urls']['96'];
-            this.authService.login();
-            window.localStorage.setItem('user', JSON.stringify(user));
-            this.isLogged = true;
-            return this.author = author;
+        this.authService.auth().subscribe(data => {
+            this.authorsService.getAuthorBySlug(window.localStorage.getItem('username')).subscribe(user => {
+                const author = new Author();
+                author.id = user['id'];
+                author.name = user['name'];
+                author.avatarUrl = user['avatar_urls']['96'];
+                this.authService.login();
+                window.localStorage.setItem('id', user['id']);
+                this.isLogged = true;
+                return this.author = author;
+            });
         }, error => {
             this.authService.logout();
             if (error.error.code = 'invalid_username')  {
@@ -82,5 +84,15 @@ export class LoginComponent implements OnInit {
         window.setTimeout(() => {
             this.message.text = '';
         }, 5000);
+    }
+    onSignUpClick() {
+        this.signUpForm = true;
+    }
+    signInEmitter(signIn) {
+        this.signUpForm = signIn;
+    }
+    logInEmitter(author) {
+        this.author = author;
+        this.isLogged = true;
     }
 }

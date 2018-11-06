@@ -18,6 +18,9 @@ export class AuthorsService {
     getAuthor(id: number): Observable<any> {
         return this.http.get(this.authorsUrl + id);
     }
+    getAuthorBySlug(slug): Observable<any> {
+        return this.http.get(this.authorsUrl + '?slug=' + slug).pipe(map(data => data[0]));
+    }
     getAuthors(): Observable<any> {
         return this.http.get(this.authorsUrl);
     }

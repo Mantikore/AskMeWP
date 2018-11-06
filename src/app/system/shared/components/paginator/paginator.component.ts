@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-paginator',
@@ -11,11 +11,11 @@ export class PaginatorComponent implements OnChanges {
     @Input() pages: number;
     pagesArr = [];
 
-    activePage = +this.route.snapshot.paramMap.get('page');
+    activePage = +this.route.snapshot.paramMap.get('page') || 1;
     pageName;
 
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute, private router: Router) {
     }
 
     ngOnChanges() {
@@ -24,8 +24,8 @@ export class PaginatorComponent implements OnChanges {
           this.pagesArr.push(i);
           i++;
       }
-      this.pageName = this.route.url['_value']['0']['path'];
-      console.log(this.pageName);
+      this.pageName = window.location.pathname;
+      console.log(window.location.pathname);
     }
 
     onPageClick(page) {

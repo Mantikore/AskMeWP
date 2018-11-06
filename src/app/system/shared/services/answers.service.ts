@@ -14,16 +14,12 @@ export class AnswersService {
 
     constructor(
         private http: HttpClient,
-        private authorsService: AuthorsService
     ) {}
-
-    getAnswers(id: number): Observable<any> {
-        const url = `${this.answersUrl}${id}`;
-        const options = { params: new HttpParams().set('order', 'asc') }
-        return this.http.get(url, options);
-    }
     getAnswersCount(id: number): Observable<any> {
         return this.http.get(this.answersUrl + id, {observe: 'response'});
+    }
+    getAnswersPage(id: number, page: number): Observable<any> {
+        return this.http.get(`${this.answersUrl}${id}&page=${page}`, {observe: 'response'});
     }
     addAnswer (text: string, qid: number): Observable<any> {
         const httpOptions = {

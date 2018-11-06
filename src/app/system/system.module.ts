@@ -21,6 +21,7 @@ import { AddQuestionComponent } from './add-question/add-question.component';
 import { PaginatorComponent } from './shared/components/paginator/paginator.component';
 import { CategoriesService } from './shared/services/categories.service';
 import { AuthorsService } from './shared/services/authors.service';
+import { RegistrationComponent } from './shared/components/registration/registration.component';
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import { AuthorsService } from './shared/services/authors.service';
         LoginComponent,
         CategoriesComponent,
         AddQuestionComponent,
-        PaginatorComponent
+        PaginatorComponent,
+        RegistrationComponent
     ],
     providers: [
         QuestionsService,

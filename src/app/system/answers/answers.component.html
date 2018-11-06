@@ -16,6 +16,10 @@
   </div>
 </div>
 
+<div *ngIf="pages">
+  <app-paginator [pages]="pages"></app-paginator>
+</div>
+
 <div *ngIf="isLogged">
   <h4>Add answer:</h4>
   <div class="w-100">

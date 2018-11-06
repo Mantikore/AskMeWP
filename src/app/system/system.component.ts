@@ -6,10 +6,4 @@ import { Component} from '@angular/core';
 })
 export class SystemComponent {
 
-    // isLoggedIn: boolean;
-    //
-    // updateLoginStatus($event: Event) {
-    //     $event ? this.isLoggedIn = true : this.isLoggedIn = false;
-    // }
-
 }

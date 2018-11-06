@@ -2,7 +2,7 @@
     {{message.text}}
 </div>
 
-<div *ngIf="!isLogged">
+<div *ngIf="!isLogged && !signUpForm">
     <h5 class="text-xs-center">Log In</h5>
 
     <form [formGroup]="form">
@@ -42,14 +42,17 @@
         </div>
         <div class="form-group">
             <span class="text-muted">Don't have an account? </span>
-            <a [routerLink]="'/registration'">Sign Up</a>
+            <a (click)="onSignUpClick()" class="pointer">Sign Up</a>
         </div>
     </form>
 </div>
-<div *ngIf="isLogged">
+<div *ngIf="isLogged && !signUpForm">
     Hello, <a routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}"></a> <a
         routerLink="/system/author/{{author.id}}">{{author.name}}</a> !
     <br>
     <button class="btn btn-primary mt-3" (click)="onLogOut()">Log Out</button>
+</div>
+<div *ngIf="signUpForm">
+    <app-registration (signUpForm)="signInEmitter($event)" (author)="logInEmitter($event)"></app-registration>
 </div>
 

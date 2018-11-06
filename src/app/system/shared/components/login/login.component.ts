@@ -37,8 +37,8 @@ export class LoginComponent implements OnInit {
         this.isLogged = this.authService.isLogged();
 
         if (this.isLogged) {
-            const id = window.localStorage.getItem('id');
-            this.user = this.authorsService.getAuthor(+id).subscribe(me => {
+            const username = window.localStorage.getItem('username');
+            this.user = this.authorsService.getAuthorBySlug(username).subscribe(me => {
                 this.author.id = me['id'];
                 this.author.name = me['name'];
                 this.author.avatarUrl = me['avatar_urls']['96'];

@@ -48,7 +48,7 @@ export class AddQuestionComponent implements OnInit {
         }
         this.questionsService.addQuestion(title, text, this.categories, this.token)
             .subscribe(question => {
-                this.router.navigate([`system/question/${question['id']}`]);
+                this.router.navigate([`system/question/${question['id']}`], { queryParams: { page: 1 } });
             });
 
         function ErrorEmpty() {

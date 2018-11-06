@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
         if (this.isLogged) {
             const username = window.localStorage.getItem('username');
             this.user = this.authorsService.getAuthorBySlug(username).subscribe(me => {
+                console.log(me);
                 this.author.id = me['id'];
                 this.author.name = me['name'];
                 this.author.avatarUrl = me['avatar_urls']['96'];
@@ -58,7 +59,6 @@ export class LoginComponent implements OnInit {
                 author.name = user['name'];
                 author.avatarUrl = user['avatar_urls']['96'];
                 this.authService.login();
-                window.localStorage.setItem('id', user['id']);
                 this.isLogged = true;
                 return this.author = author;
             });

@@ -19,7 +19,7 @@ export class AuthorsService {
         return this.http.get(this.authorsUrl + id);
     }
     getAuthorBySlug(slug): Observable<any> {
-        return this.http.get(this.authorsUrl + '?slug=' + slug).pipe(map(data => data[0]));
+        return this.http.get(this.authorsUrl + '?slug=' + slug).pipe(map(data => data[0] ? data[0] : undefined));
     }
     getAuthors(): Observable<any> {
         return this.http.get(this.authorsUrl);
@@ -27,11 +27,6 @@ export class AuthorsService {
     getAuthorQuestions(id): Observable<any> {
         return this.http.get(this.authorPostsUrl + id);
     }
-
-    getAuthorByUsername(username) {
-        return this.http.get(this.authorsUrl + '?slug=' + username).pipe(map(data => data[0] ? data[0] : undefined));
-    }
-
     getMe() {
         return this.http.get(this.authorsUrl + 'me');
     }

@@ -18,7 +18,9 @@ export class RegistrationComponent implements OnInit {
     @Output() signUpForm = new EventEmitter();
     @Output() author = new EventEmitter();
 
-  constructor(private authService: AuthService) { }
+  constructor(
+      private authService: AuthService
+  ) { }
 
   ngOnInit() {
       this.message = new Message('danger', '');
@@ -32,13 +34,18 @@ export class RegistrationComponent implements OnInit {
   onSignUp() {
       const formData = this.form.value;
       this.error = '';
-      this.authService.signUp(formData.username, formData.email, formData.password).subscribe(message => {
-          console.log(message);
-          window.localStorage.setItem('user', formData.username);
-          window.localStorage.setItem('password', formData.password);
-          this.authService.getMe().subscribe(user => {
-            console.log('success!');
-          }, error => console.log(error));
+      this.authService.signUp(formData.username, formData.email, formData.password).subscribe(user => {
+              const author = new Author();
+              console.log(user);
+              author.id = user['id'];
+              author.name = user['name'];
+              author.avatarUrl = user['avatar_urls']['96'];
+              window.localStorage.setItem('username', formData.username);
+              window.localStorage.setItem('password', formData.password);
+              this.authService.login();
+              this.isLogged = true;
+              this.signUpForm.emit(false);
+              return this.author.emit(author);
       }, error => {
           this.authService.logout();
           console.log(error);

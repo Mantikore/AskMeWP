@@ -5,6 +5,7 @@ import { QuestionsService } from '../shared/services/questions.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/index';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/internal/operators';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
     selector: 'app-add-question',
@@ -17,10 +18,12 @@ export class AddQuestionComponent implements OnInit {
     foundedCategories: Category[] = [];
     addedCategories: Category[] = [];
     private searchTerms = new Subject<string>();
+    token: string;
 
 
     constructor(private categoriesService: CategoriesService,
                 private questionsService: QuestionsService,
+                private authService: AuthService,
                 private router: Router) {
     }
 
@@ -30,6 +33,7 @@ export class AddQuestionComponent implements OnInit {
             distinctUntilChanged(),
             switchMap((term: string) => this.categoriesService.searchCategories(term))
         ).subscribe(data => this.foundedCategories = data);
+        this.authService.getToken().subscribe(token => this.token = token);
     }
 
     search(term: string): void {
@@ -42,7 +46,7 @@ export class AddQuestionComponent implements OnInit {
         if (!text) {
             return ErrorEmpty();
         }
-        this.questionsService.addQuestion(title, text, this.categories)
+        this.questionsService.addQuestion(title, text, this.categories, this.token)
             .subscribe(question => {
                 this.router.navigate([`system/question/${question['id']}`]);
             });

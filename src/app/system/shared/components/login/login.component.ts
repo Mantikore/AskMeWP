@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        console.log(this.signUpForm);
         this.message = new Message('danger', '');
         this.form = new FormGroup({
             'username': new FormControl(null, [Validators.required]),
@@ -39,7 +38,6 @@ export class LoginComponent implements OnInit {
         if (this.isLogged) {
             const username = window.localStorage.getItem('username');
             this.user = this.authorsService.getAuthorBySlug(username).subscribe(me => {
-                console.log(me);
                 this.author.id = me['id'];
                 this.author.name = me['name'];
                 this.author.avatarUrl = me['avatar_urls']['96'];

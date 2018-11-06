@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
 
 
 
@@ -11,7 +12,8 @@ export class QuestionsService {
     private questionsEmbedUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts?&_embed';
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private authService: AuthService
     ) {}
 
     getQuestion(id: number): Observable<any> {
@@ -24,22 +26,17 @@ export class QuestionsService {
     getQuestionsPage(page): Observable<any> {
         return this.http.get(`${this.questionsEmbedUrl}&page=${page}`, {observe: 'response'});
     }
-    addQuestion(title: string, text: string, categories) {
-        const httpOptions = {
-            headers: new HttpHeaders({'Authorization' : 'Basic '
-                     + btoa( window.localStorage.getItem('username')
-                     + ':'
-                     + window.localStorage.getItem('password'))
-            })
-        };
-        return this.http.post(this.questionsUrl, {
-            slug: window.localStorage.getItem('username'),
-            title: title,
-            content: text,
-            date: new Date(),
-            status: 'publish',
-            categories: categories
-        }, httpOptions);
+    addQuestion(title: string, text: string, categories, token) {
+        const headers: HttpHeaders = new HttpHeaders({
+            'Authorization': 'Bearer ' + token
+        });
+            return this.http.post(this.questionsUrl, {
+                slug: window.localStorage.getItem('username'),
+                title: title,
+                content: text,
+                date: new Date(),
+                status: 'publish',
+                categories: categories
+            }, { headers: headers });
     }
-
 }

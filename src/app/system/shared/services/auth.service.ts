@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Author } from '../models/author';
 import { BehaviorSubject, Observable } from 'rxjs/index';
+import { map, switchMap } from 'rxjs/internal/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -9,6 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs/index';
 export class AuthService {
     private meUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me';
     private usersUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/register';
+    private tokenUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me/token';
     private isLoggedIn = new BehaviorSubject<boolean>(this.isLogged());
     isLoggedIn$ = this.isLoggedIn.asObservable();
 
@@ -19,7 +21,7 @@ export class AuthService {
     ) {
     }
 
-    getMe(): Observable<any> {
+    getMe(): Observable<Object> {
         const username = window.localStorage.getItem('username');
         const password = window.localStorage.getItem('password');
         const httpOptions = {
@@ -28,13 +30,19 @@ export class AuthService {
         return this.http.get(this.meUrl, httpOptions);
     }
 
-    auth() {
+    getToken(): Observable<string> {
+        return this.http.post(this.meUrl + '/login', {
+            username: window.localStorage.getItem('username'),
+            password: window.localStorage.getItem('password')
+        }).pipe(map(data => data['data']['token']));
+    }
+    auth(): Observable<Object> {
         return this.http.post(this.meUrl + '/login', {
             username: window.localStorage.getItem('username'),
             password: window.localStorage.getItem('password')
         });
     }
-    signUp(username, email, password): Observable<any> {
+    signUp(username, email, password): Observable<Object> {
         return this.http.post(this.usersUrl, {
             username: username,
             email: email,

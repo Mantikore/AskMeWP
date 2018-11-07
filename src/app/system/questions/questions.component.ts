@@ -58,6 +58,7 @@ export class QuestionsComponent implements OnInit {
             author.id = item['author'];
             author.name = item['_embedded'].author[0].name;
             author.avatarUrl = item['_embedded'].author[0].avatar_urls['96'];
+            author.slug = item['_embedded'].author[0].slug;
             question.author = author;
             this.questions.push(question);
         }

@@ -18,6 +18,7 @@ export class AnswersComponent implements OnInit {
     isLogged: Boolean;
     pages: number;
     answersCount: number;
+    token: string;
 
     constructor(
         private answersService: AnswersService,
@@ -56,7 +57,7 @@ export class AnswersComponent implements OnInit {
         if (!text) {
             return ErrorEmpty();
         }
-        this.answersService.addAnswer(text, this.qid)
+        this.answersService.addAnswer(text, this.qid, this.token)
             .subscribe(answer => {
                 this.getAnswers();
             });
@@ -69,5 +70,6 @@ export class AnswersComponent implements OnInit {
     ngOnInit() {
         this.getAnswers();
         this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged);
+        this.authService.getToken().subscribe(token => this.token = token);
     }
 }

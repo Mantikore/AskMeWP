@@ -3,4 +3,5 @@ export class Author {
     name: string;
     avatarUrl: string;
     replies: number;
+    slug: string;
 }

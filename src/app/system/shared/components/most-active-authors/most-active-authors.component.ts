@@ -18,6 +18,7 @@ export class MostActiveAuthorsComponent implements OnInit {
             const author = new Author();
             author.id = item['id'];
             author.name = item['name'];
+            author.slug = item['slug'];
             author.avatarUrl = item['avatar_urls']['96'];
             authors.push(author);
         }

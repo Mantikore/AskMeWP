@@ -21,7 +21,7 @@
         </div>
         <a *ngIf="question.text.length > 400" class="d-inline-block w-100" routerLink="/system/question/{{question.id}}" [queryParams]="{page: 1}">Read More</a>
         <div class="author float-right">
-          Asked {{question.date | date:'medium'}} <a routerLink="/system/author/{{question.author.id}}" class="d-inline-block ml-2"><img src="{{question.author.avatarUrl}}"></a> <a routerLink="/system/author/{{question.author.id}}" class="author">{{question.author.name}}</a>
+          Asked {{question.date | date:'medium'}} <a routerLink="/system/author/{{question.author.id}}" class="d-inline-block ml-2"><img src="{{question.author.avatarUrl}}"></a> <a routerLink="/system/author/{{question.author.slug}}" class="author">{{question.author.name}}</a>
         </div>
       </div>
     </div>

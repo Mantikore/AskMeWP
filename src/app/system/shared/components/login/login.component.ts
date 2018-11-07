@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit {
                 author.id = user['id'];
                 author.name = user['name'];
                 author.avatarUrl = user['avatar_urls']['96'];
+                author.slug = user['slug'];
                 this.authService.login();
                 this.isLogged = true;
                 return this.author = author;

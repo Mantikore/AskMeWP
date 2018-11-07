@@ -12,7 +12,7 @@ const routes: Routes = [
     {path: '', component: SystemComponent,  children: [
         {path: 'questions', component: QuestionsComponent},
         {path: 'question/:id', component: QuestionPageComponent},
-        {path: 'author/:id', component: AuthorPageComponent},
+        {path: 'author/:slug', component: AuthorPageComponent},
         {path: 'category/:id', component: QuestionsComponent},
         {path: 'add-question', component: AddQuestionComponent}
     ]}

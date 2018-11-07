@@ -21,16 +21,16 @@ export class AnswersService {
     getAnswersPage(id: number, page: number): Observable<any> {
         return this.http.get(`${this.answersUrl}${id}&page=${page}`, {observe: 'response'});
     }
-    addAnswer (text: string, qid: number): Observable<any> {
-        const httpOptions = {
-            headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( window.localStorage.getItem('username') + ':' + window.localStorage.getItem('password') ) })
-        };
+    addAnswer (text: string, qid: number, token: string): Observable<Object> {
+        const headers: HttpHeaders = new HttpHeaders({
+            'Authorization': 'Bearer ' + token
+        });
         return this.http.post(this.allAnswersUrl, {
             slug: window.localStorage.getItem('username'),
             content: text,
             date: new Date(),
             post: qid
-        }, httpOptions);
+        }, { headers: headers });
     }
 
 }

@@ -4,7 +4,7 @@ import { CategoriesService } from '../shared/services/categories.service';
 import { QuestionsService } from '../shared/services/questions.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs/index';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/internal/operators';
+import { debounceTime, distinctUntilChanged, mergeMap, switchMap } from 'rxjs/internal/operators';
 import { AuthService } from '../shared/services/auth.service';
 
 @Component({
@@ -33,7 +33,6 @@ export class AddQuestionComponent implements OnInit {
             distinctUntilChanged(),
             switchMap((term: string) => this.categoriesService.searchCategories(term))
         ).subscribe(data => this.foundedCategories = data);
-        this.authService.getToken().subscribe(token => this.token = token);
     }
 
     search(term: string): void {
@@ -46,11 +45,10 @@ export class AddQuestionComponent implements OnInit {
         if (!text) {
             return ErrorEmpty();
         }
-        this.questionsService.addQuestion(title, text, this.categories, this.token)
+        this.questionsService.addQuestion(title, text, this.categories, window.localStorage.getItem('token'))
             .subscribe(question => {
                 this.router.navigate([`system/question/${question['id']}`], { queryParams: { page: 1 } });
-            });
-
+            }, error => console.log(error));
         function ErrorEmpty() {
             if (!text) {
                 alert('Insert text!');

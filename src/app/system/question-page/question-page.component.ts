@@ -14,7 +14,6 @@ import { combineLatest } from 'rxjs/index';
 export class QuestionPageComponent implements OnInit {
     question: Question;
     author: Author;
-    answerPages: number;
 
     constructor(private route: ActivatedRoute,
                 private questionService: QuestionsService,
@@ -33,6 +32,7 @@ export class QuestionPageComponent implements OnInit {
             this.authorService.getAuthor(author.id).subscribe(authorData => {
                 author.name = authorData.name;
                 author.avatarUrl = authorData.avatar_urls['96'];
+                author.slug = authorData.slug;
             });
             this.author = author;
             return this.question = question;

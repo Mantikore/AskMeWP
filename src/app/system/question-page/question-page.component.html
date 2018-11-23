@@ -1,7 +1,7 @@
 <div *ngIf="question">
   <div class="author">
-    <a routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>
-    <a routerLink="/system/author/{{author.id}}" class="font-weight-bold mr-1 d-inline-block">{{author.name}}</a> <span class="date font-weight-light small">asked {{question.date  | date:'medium' }}</span>
+    <a routerLink="/system/author/{{author.slug}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>
+    <a routerLink="/system/author/{{author.slug}}" class="font-weight-bold mr-1 d-inline-block">{{author.name}}</a> <span class="date font-weight-light small">asked {{question.date  | date:'medium' }}</span>
   </div>
   <app-categories [question]="question.id"></app-categories>
   <hr>

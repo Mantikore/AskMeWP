@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
                 this.author.id = me['id'];
                 this.author.name = me['name'];
                 this.author.avatarUrl = me['avatar_urls']['96'];
+                this.author.slug = me['slug'];
             });
         }
     }
@@ -50,7 +51,8 @@ export class LoginComponent implements OnInit {
         this.error = '';
         window.localStorage.setItem('username', formData.username);
         window.localStorage.setItem('password', formData.password);
-        this.authService.auth().subscribe(data => {
+        this.authService.jwtAuth().subscribe(data => {
+            window.localStorage.setItem('token', data['token']);
             this.authorsService.getAuthorBySlug(window.localStorage.getItem('username')).subscribe(user => {
                 const author = new Author();
                 author.id = user['id'];

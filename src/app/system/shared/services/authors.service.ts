@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
 import { map } from 'rxjs/internal/operators';
 
@@ -10,6 +10,7 @@ import { map } from 'rxjs/internal/operators';
 export class AuthorsService {
     private authorsUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/';
     private authorPostsUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts?author=';
+    private commentsUrl = 'http://localhost/angularwp/wp-json/wp/v2/comments';
 
     constructor(
         private http: HttpClient
@@ -26,6 +27,12 @@ export class AuthorsService {
     }
     getAuthorQuestions(id): Observable<any> {
         return this.http.get(this.authorPostsUrl + id);
+    }
+    getAuthorAnswers(id, token): Observable<any> {
+        const headers: HttpHeaders = new HttpHeaders({
+            'Authorization': 'Bearer ' + token
+        });
+        return this.http.get(this.commentsUrl + '?author=' + id, {headers: headers});
     }
     getMe() {
         return this.http.get(this.authorsUrl + 'me');

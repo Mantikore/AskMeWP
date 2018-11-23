@@ -10,7 +10,7 @@ import { map, switchMap } from 'rxjs/internal/operators';
 export class AuthService {
     private meUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me';
     private usersUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/register';
-    private tokenUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me/token';
+    private tokenUrl = 'http://localhost/angularwp/wp-json/jwt-auth/v1/token';
     private isLoggedIn = new BehaviorSubject<boolean>(this.isLogged());
     isLoggedIn$ = this.isLoggedIn.asObservable();
 
@@ -30,17 +30,24 @@ export class AuthService {
         return this.http.get(this.meUrl, httpOptions);
     }
 
-    getToken(): Observable<string> {
-        return this.http.post(this.meUrl + '/login', {
+    getToken() {
+        return this.http.post(this.tokenUrl, {
             username: window.localStorage.getItem('username'),
             password: window.localStorage.getItem('password')
-        }).pipe(map(data => data['data']['token']));
+        });
     }
     auth(): Observable<Object> {
         return this.http.post(this.meUrl + '/login', {
             username: window.localStorage.getItem('username'),
             password: window.localStorage.getItem('password')
         });
+    }
+    jwtAuth() {
+        const data = this.http.post(this.tokenUrl, {
+            username: window.localStorage.getItem('username'),
+            password: window.localStorage.getItem('password')
+        });
+        return data;
     }
     signUp(username, email, password): Observable<Object> {
         return this.http.post(this.usersUrl, {

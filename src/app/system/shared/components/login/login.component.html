@@ -47,7 +47,7 @@
     </form>
 </div>
 <div *ngIf="isLogged && !signUpForm">
-    Hello, <a routerLink="/system/author/{{author.id}}"><img src="{{author.avatarUrl}}"></a> <a
+    Hello, <a routerLink="/system/author/{{author.slug}}"><img src="{{author.avatarUrl}}"></a> <a
         routerLink="/system/author/{{author.slug}}">{{author.name}}</a> !
     <br>
     <button class="btn btn-primary mt-3" (click)="onLogOut()">Log Out</button>

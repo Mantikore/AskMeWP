@@ -25,7 +25,6 @@ export class PaginatorComponent implements OnChanges {
           i++;
       }
       this.pageName = window.location.pathname;
-      console.log(window.location.pathname);
     }
 
     onPageClick(page) {

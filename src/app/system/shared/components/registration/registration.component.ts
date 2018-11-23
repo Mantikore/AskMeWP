@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Message } from '../../models/message.model';
 import { AuthService } from '../../services/auth.service';
 import { Author } from '../../models/author';
+import { AuthorsService } from '../../services/authors.service';
 
 @Component({
   selector: 'app-registration',
@@ -19,7 +20,8 @@ export class RegistrationComponent implements OnInit {
     @Output() author = new EventEmitter();
 
   constructor(
-      private authService: AuthService
+      private authService: AuthService,
+      private authorsService: AuthorsService
   ) { }
 
   ngOnInit() {
@@ -34,18 +36,21 @@ export class RegistrationComponent implements OnInit {
   onSignUp() {
       const formData = this.form.value;
       this.error = '';
-      this.authService.signUp(formData.username, formData.email, formData.password).subscribe(user => {
-              const author = new Author();
-              console.log(user);
-              author.id = user['id'];
-              author.name = user['name'];
-              author.avatarUrl = user['avatar_urls']['96'];
-              window.localStorage.setItem('username', formData.username);
-              window.localStorage.setItem('password', formData.password);
-              this.authService.login();
-              this.isLogged = true;
-              this.signUpForm.emit(false);
-              return this.author.emit(author);
+      this.authService.signUp(formData.username, formData.email, formData.password).subscribe(message => {
+              this.authorsService.getAuthorBySlug(formData.username).subscribe(user => {
+                  console.log(user);
+                  const author = new Author();
+                  author.id = user['id'];
+                  author.name = user['name'];
+                  author.avatarUrl = user['avatar_urls']['96'];
+                  window.localStorage.setItem('username', formData.username);
+                  window.localStorage.setItem('password', formData.password);
+                  this.authService.jwtAuth().subscribe(data => window.localStorage.setItem('token', data['token']));
+                  this.authService.login();
+                  this.isLogged = true;
+                  this.signUpForm.emit(false);
+                  return this.author.emit(author);
+              });
       }, error => {
           this.authService.logout();
           console.log(error);

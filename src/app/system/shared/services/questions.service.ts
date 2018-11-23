@@ -30,13 +30,13 @@ export class QuestionsService {
         const headers: HttpHeaders = new HttpHeaders({
             'Authorization': 'Bearer ' + token
         });
-            return this.http.post(this.questionsUrl, {
-                slug: window.localStorage.getItem('username'),
-                title: title,
-                content: text,
-                date: new Date(),
-                status: 'publish',
-                categories: categories
-            }, { headers: headers });
+        return this.http.post(this.questionsUrl, {
+            slug: window.localStorage.getItem('username'),
+            title: title,
+            content: text,
+            date: new Date(),
+            status: 'publish',
+            categories: categories
+        }, { headers: headers });
     }
 }

@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/index';
+import { BehaviorSubject, Observable, of } from 'rxjs/index';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { Question } from '../models/question';
+import { tap } from 'rxjs/internal/operators';
 
 
 
@@ -38,5 +40,11 @@ export class QuestionsService {
             status: 'publish',
             categories: categories
         }, { headers: headers });
+    }
+    searchQuestions(term: string): Observable<Question[]> {
+        if (!term.trim()) {
+            return of([]);
+        }
+        return this.http.get<Question[]>(`${this.questionsUrl}?search=${term}`);
     }
 }

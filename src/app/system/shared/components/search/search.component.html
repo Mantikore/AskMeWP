@@ -1,1 +1,14 @@
-<input class="form-control form-control-dark w-100 border-0 pl-5 search-field m-2" type="text" placeholder="Search" aria-label="Search">
+<input class="form-control form-control-dark w-100 border-0 pl-5 search-field m-2"
+       type="text"
+       #searchBox
+       autocomplete="off"
+       id="search-box"
+       placeholder="Search"
+       aria-label="Search"
+       (keyup)="search(searchBox.value)">
+<div class="dropdown-menu d-block float-none w-100" *ngIf="foundedQuestions.length">
+    <a class="dropdown-item p-2 font-weight-bold" *ngFor="let question of foundedQuestions" routerLink="/system/question/{{question.id}}" (click)="foundedQuestions = []">{{question.title.rendered}}</a>
+</div>
+<div class="dropdown-menu d-block float-none w-100" *ngIf="nothingFound">
+    <a class="dropdown-item text-muted pl-2" >Your search returned no matches.</a>
+</div>

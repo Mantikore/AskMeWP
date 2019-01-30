@@ -19,7 +19,7 @@ export class AnswersService {
         return this.http.get(this.answersUrl + id, {observe: 'response'});
     }
     getAnswersPage(id: number, page: number): Observable<any> {
-        return this.http.get(`${this.answersUrl}${id}&page=${page}`, {observe: 'response'});
+        return this.http.get(`${this.answersUrl}${id}&page=${page ? page : 1}`, {observe: 'response'});
     }
     addAnswer (text: string, qid: number, token: string): Observable<Object> {
         const headers: HttpHeaders = new HttpHeaders({

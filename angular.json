@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+
             "outputPath": "dist/askme",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,6 +30,11 @@
             "styles": [
               "src/sass/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/sass"
+              ]
+            },
             "scripts": [
               "../askme/node_modules/jquery/dist/jquery.min.js",
               "../askme/node_modules/bootstrap/dist/js/bootstrap.bundle.js"

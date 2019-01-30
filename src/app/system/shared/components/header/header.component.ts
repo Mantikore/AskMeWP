@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import set = Reflect.set;
 
 @Component({
   selector: 'app-header',
@@ -11,9 +10,13 @@ export class HeaderComponent implements OnInit {
 
     isLogged: Boolean;
 
-    constructor(private authService: AuthService) {}
+
+    constructor(
+        private authService: AuthService
+    ) {}
 
     ngOnInit() {
         this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged);
     }
+
 }

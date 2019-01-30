@@ -38,11 +38,10 @@ export class RegistrationComponent implements OnInit {
       this.error = '';
       this.authService.signUp(formData.username, formData.email, formData.password).subscribe(message => {
               this.authorsService.getAuthorBySlug(formData.username).subscribe(user => {
-                  console.log(user);
                   const author = new Author();
                   author.id = user['id'];
                   author.name = user['name'];
-                  author.avatarUrl = user['avatar_urls']['96'];
+                  author.avatarUrl = 'assets/img/mystery.png';
                   window.localStorage.setItem('username', formData.username);
                   window.localStorage.setItem('password', formData.password);
                   this.authService.jwtAuth().subscribe(data => window.localStorage.setItem('token', data['token']));

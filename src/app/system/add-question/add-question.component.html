@@ -1,18 +1,18 @@
 <h4>Add new question:</h4>
 
-
   <div class="form-group">
     <label for="title">Title</label>
     <input type="text" class="form-control" id="title" #title placeholder="What's your programming question?">
   </div>
   <div class="form-group">
-    <label for="text">Body</label>
-    <textarea class="form-control w-100" id="text" #text rows="5"></textarea>
+    <label>Body</label>
+    <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+
   </div>
   <div class="form-group">
     <label for="cat">Categories</label>
     <br>
-    <input type="text" #cat id="cat" autocomplete="off" placeholder="Add some categories" (keyup)="search(cat.value)">
+    <input type="text" #cat id="cat" autocomplete="off" placeholder="Add some categories" (keyup)="search(cat.value)" class="form-control">
     <div class="dropdown-menu d-block position-static float-none w-25" *ngIf="foundedCategories.length">
       <a class="dropdown-item" (click)="onClickCategory(cat)"  *ngFor="let cat of foundedCategories"><img src="assets/img/{{cat.slug}}.png" /> {{cat.name}}</a>
     </div>
@@ -28,7 +28,7 @@
 
 
 
-  <button class="btn btn-primary float-right" (click)="add(title.value, text.value)">
+  <button class="btn btn-primary float-right" (click)="add(title.value, htmlContent)">
     Ask Question
   </button>
 

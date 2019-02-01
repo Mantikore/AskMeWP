@@ -1,9 +1,17 @@
-import { Component} from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-system',
     templateUrl: './system.component.html'
 })
-export class SystemComponent {
+export class SystemComponent implements OnInit{
+    public innerWidth: any;
 
+    ngOnInit() {
+        this.innerWidth = window.innerWidth;
+    }
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.innerWidth = window.innerWidth;
+    }
 }

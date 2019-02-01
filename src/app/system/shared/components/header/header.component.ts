@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 export class HeaderComponent implements OnInit {
 
     isLogged: Boolean;
+    public innerWidth: any;
 
 
     constructor(
@@ -17,6 +18,11 @@ export class HeaderComponent implements OnInit {
 
     ngOnInit() {
         this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged);
+        this.innerWidth = window.innerWidth;
+    }
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.innerWidth = window.innerWidth;
     }
 
 }

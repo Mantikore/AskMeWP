@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
@@ -23,12 +23,20 @@ import { CategoriesService } from './shared/services/categories.service';
 import { AuthorsService } from './shared/services/authors.service';
 import { RegistrationComponent } from './shared/components/registration/registration.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { GreetingsComponent } from './shared/components/greetings/greetings.component';
+
 @NgModule({
     imports: [
         CommonModule,
         SystemRoutingModule,
         ReactiveFormsModule,
-        FormsModule    ],
+        FormsModule,
+        HttpClientModule,
+        AngularEditorModule
+    ],
     declarations: [
         HeaderComponent,
         FooterComponent,
@@ -45,7 +53,8 @@ import { RegistrationComponent } from './shared/components/registration/registra
         CategoriesComponent,
         AddQuestionComponent,
         PaginatorComponent,
-        RegistrationComponent
+        RegistrationComponent,
+        GreetingsComponent
     ],
     providers: [
         QuestionsService,
@@ -56,7 +65,11 @@ import { RegistrationComponent } from './shared/components/registration/registra
     ],
     exports: [
         ReadMorePipe
-    ]
+    ],
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA,
+        NO_ERRORS_SCHEMA
+    ],
 })
 
 export class SystemModule {

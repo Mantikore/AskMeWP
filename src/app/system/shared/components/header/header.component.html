@@ -1,9 +1,31 @@
 <nav class="navbar fixed-top flex-lg-nowrap p-0">
-  <a class="navbar-brand col-lg-2 mr-0 text-center" routerLink="/"><img src="assets/img/logo.png"></a>
+  <a class="navbar-brand col-lg-2 mr-0 float-left d-block w-25" routerLink="/"><img src="assets/img/logo.png"></a>
+  <div class="float-left d-lg-none d-xl-none d-inline-block pr-2 w-75">
+    <button type="button" *ngIf="isLogged" class="btn btn-primary btn-lg w-50 float-right  ml-3" routerLink="/system/add-question">Ask Question</button>
+    <!-- for smaller devices -->
+    <button class="btn btn-primary d-block float-right d-lg-none d-xl-none" data-toggle="modal" data-target="#exampleModal" *ngIf="!isLogged">Log In</button>
+    <app-greetings class="float-right text-right" *ngIf="innerWidth <= 992 && isLogged"></app-greetings>
+  </div>
   <div class="col-lg-7 search-zone align-items-center w-100 pl-0">
     <app-search></app-search>
   </div>
   <div class="col-lg-3 p-2">
-    <button *ngIf="isLogged" type="button" class="btn btn-primary btn-lg btn-block" routerLink="/system/add-question">Ask Question</button>
+    <button *ngIf="isLogged" type="button" class="btn btn-primary btn-lg btn-block d-none d-lg-block d-xl-block" routerLink="/system/add-question">Ask Question</button>
   </div>
 </nav>
+<!-- Modal -->
+<div *ngIf="innerWidth <= 992" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-left">
+          <app-login></app-login>
+      </div>
+    </div>
+  </div>
+</div>
+

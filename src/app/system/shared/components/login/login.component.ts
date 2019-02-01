@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
@@ -33,17 +33,20 @@ export class LoginComponent implements OnInit {
             'password': new FormControl(null, [Validators.required, Validators.minLength(4)])
         });
 
-        this.isLogged = this.authService.isLogged();
+        this.authService.isLoggedIn$.subscribe(isLogged => {
+            this.isLogged = isLogged;
+            if (this.isLogged) {
+                const username = window.localStorage.getItem('username');
+                this.user = this.authorsService.getAuthorBySlug(username).subscribe(me => {
+                    this.author.id = me['id'];
+                    this.author.name = me['name'];
+                    this.author.avatarUrl = me['avatar_urls']['96'];
+                    this.author.slug = me['slug'];
+                });
+            }
+        });
 
-        if (this.isLogged) {
-            const username = window.localStorage.getItem('username');
-            this.user = this.authorsService.getAuthorBySlug(username).subscribe(me => {
-                this.author.id = me['id'];
-                this.author.name = me['name'];
-                this.author.avatarUrl = me['avatar_urls']['96'];
-                this.author.slug = me['slug'];
-            });
-        }
+
     }
 
     onLogIn() {

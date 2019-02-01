@@ -109,3 +109,26 @@ body, html, .container-fluid, .main-section
   cursor: pointer;
 }
 
+.modal-backdrop {
+  z-index: 10;
+}
+
+@media (max-width: 992px) {
+  .left-menu {
+    display: none;
+  }
+  .main-section {
+    padding-top: 10rem;
+  }
+  .navbar-brand {
+    text-align: left;
+  }
+  .hello {
+    color: $light-grey;
+    a.dashed {
+      cursor: pointer;
+      border-bottom: 1px dashed $gray-500;
+      color: $gray-500;
+    }
+  }
+}

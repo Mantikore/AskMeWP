@@ -12,7 +12,7 @@
   <div class="form-group">
     <label for="cat">Categories</label>
     <br>
-    <input type="text" #cat id="cat" autocomplete="off" placeholder="Add some categories" (keyup)="search(cat.value)" class="form-control">
+    <input type="text" [(ngModel)]="catValue" #cat id="cat" autocomplete="off" placeholder="Add some categories" (keyup)="search(cat.value)" class="form-control">
     <div class="dropdown-menu d-block position-static float-none w-25" *ngIf="foundedCategories.length">
       <a class="dropdown-item" (click)="onClickCategory(cat)"  *ngFor="let cat of foundedCategories"><img src="assets/img/{{cat.slug}}.png" /> {{cat.name}}</a>
     </div>

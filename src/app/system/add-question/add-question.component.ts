@@ -21,6 +21,7 @@ export class AddQuestionComponent implements OnInit {
     private searchTerms = new Subject<string>();
     token: string;
     htmlContent: string;
+    catValue: string;
 
     editorConfig: AngularEditorConfig = {
         editable: true,
@@ -75,6 +76,8 @@ export class AddQuestionComponent implements OnInit {
             this.categories.push(`${cat.id}`);
             this.addedCategories.push(cat);
         }
+        this.catValue = null;
+        this.foundedCategories.length = 0;
     }
 
     removeCategory(category) {

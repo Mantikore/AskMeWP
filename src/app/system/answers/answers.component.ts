@@ -4,6 +4,7 @@ import { AnswersService } from '../shared/services/answers.service';
 import { Answer } from '../shared/models/answer';
 import { AuthService } from '../shared/services/auth.service';
 import { combineLatest, Observable, of } from 'rxjs';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 
 @Component({
@@ -19,6 +20,17 @@ export class AnswersComponent implements OnInit {
     pages: number;
     answersCount: number;
     token: string;
+    htmlContent: string;
+
+    editorConfig: AngularEditorConfig = {
+        editable: true,
+        spellcheck: true,
+        height: '15rem',
+        minHeight: '5rem',
+        placeholder: 'Enter text here...',
+        translate: 'no',
+        uploadUrl: 'v1/images',
+    };
 
     constructor(
         private answersService: AnswersService,

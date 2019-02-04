@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './system/shared/services/auth.service';
+import { AuthGuard } from './system/shared/services/auth.guard';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { AuthService } from './system/shared/services/auth.service';
         AppRoutingModule,
         HttpClientModule
     ],
-    providers: [AuthService],
+    providers: [AuthService, AuthGuard],
     bootstrap: [AppComponent]
 })
 export class AppModule {

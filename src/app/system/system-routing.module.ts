@@ -6,6 +6,7 @@ import { QuestionsComponent } from './questions/questions.component';
 import { QuestionPageComponent } from './question-page/question-page.component';
 import { AuthorPageComponent } from './author-page/author-page.component';
 import { AddQuestionComponent } from './add-question/add-question.component';
+import { AuthGuard } from './shared/services/auth.guard';
 
 
 const routes: Routes = [
@@ -14,7 +15,7 @@ const routes: Routes = [
         {path: 'question/:id', component: QuestionPageComponent},
         {path: 'author/:slug', component: AuthorPageComponent},
         {path: 'category/:id', component: QuestionsComponent},
-        {path: 'add-question', component: AddQuestionComponent}
+        {path: 'add-question', component: AddQuestionComponent, canActivate: [AuthGuard]}
     ]}
 ];
 

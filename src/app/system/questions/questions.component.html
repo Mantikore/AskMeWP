@@ -11,7 +11,7 @@
 
   <div *ngFor="let question of questions" class="question">
     <div class="d-flex">
-      <a class="views rounded mr-3 d-block" [class.inactive]="question.answers === 0" routerLink="/system/question/{{question.id}}" [queryParams]="{page: 1}">
+      <a class="views mr-3 d-block" [class.inactive]="question.answers === 0" routerLink="/system/question/{{question.id}}" [queryParams]="{page: 1}">
         <img src="assets/img/icon-ok.png" class="align-baseline"><strong> {{ question.answers }}</strong>
         {{  pluralizeAnswers(question.answers) }}
       </a>

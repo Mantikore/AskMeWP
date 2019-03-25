@@ -137,3 +137,18 @@ body, html, .container-fluid, .main-section
 .angular-editor-toolbar[_ngcontent-c9] .angular-editor-toolbar-set[_ngcontent-c9] {
   margin-right: 4px !important;
 }
+
+pre {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  overflow: auto;
+  -ms-overflow-style: scrollbar;
+  margin: 10px;
+  padding: 20px;
+  background-color: #eee;
+  white-space: pre;
+  text-shadow: 0 1px 0 white;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset, 0 0 10px rgba(0,0,0,0.1) inset;
+  font: 16px/24px 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+}

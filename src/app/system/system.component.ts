@@ -1,12 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-system',
     templateUrl: './system.component.html'
 })
-export class SystemComponent implements OnInit{
+export class SystemComponent implements OnInit {
     public innerWidth: any;
-
     ngOnInit() {
         this.innerWidth = window.innerWidth;
     }

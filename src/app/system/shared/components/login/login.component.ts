@@ -53,8 +53,8 @@ export class LoginComponent implements OnInit {
         const formData = this.form.value;
         this.error = '';
         window.localStorage.setItem('username', formData.username);
-        window.localStorage.setItem('password', formData.password);
-        this.authService.jwtAuth().subscribe(data => {
+        // window.localStorage.setItem('password', formData.password);
+        this.authService.jwtAuth(formData.username, formData.password).subscribe(data => {
             window.localStorage.setItem('token', data['token']);
             this.authorsService.getAuthorBySlug(window.localStorage.getItem('username')).subscribe(user => {
                 const author = new Author();

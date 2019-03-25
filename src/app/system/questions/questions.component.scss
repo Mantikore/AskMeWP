@@ -16,6 +16,11 @@
       text-align: center;
       color: $white;
       font-size: 0.8em;
+      transition: border-radius 0.5s;
+      border-radius: 5px;
+      &:hover {
+        border-radius: 40px;
+      }
 
       strong {
         font-size: 1.6em;

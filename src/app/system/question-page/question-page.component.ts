@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
 import { Question } from '../shared/models/question';
 import { ActivatedRoute, Params } from '@angular/router';
 import { QuestionsService } from '../shared/services/questions.service';
 import { Author } from '../shared/models/author';
 import { AuthorsService } from '../shared/services/authors.service';
-import { combineLatest } from 'rxjs/index';
+
 
 @Component({
   selector: 'app-question-page',
@@ -43,4 +43,5 @@ export class QuestionPageComponent implements OnInit {
     ngOnInit(): void {
        this.getQuestion();
     }
+
 }

@@ -1,5 +1,5 @@
 <h5 class="mt-3 mb-3">Users</h5>
 <div *ngFor="let author of authors" class="author">
-  <a href="" class="d-inline-block mr-2"><img src="{{author.avatarUrl}}"></a> <a routerLink="/system/author/{{author.slug}}" class="author">{{author.name}}</a>
+  <a routerLink="/system/author/{{author.slug}}" class="d-inline-block mr-2"><img src="{{author.avatarUrl}}" class="mr-2">  {{author.name}}</a>
   <hr>
 </div>

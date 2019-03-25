@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
 import { map } from 'rxjs/internal/operators';
+import * as myGlobals from './global';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorsService {
-    private authorsUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/';
-    private authorPostsUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts?author=';
-    private commentsUrl = 'http://localhost/angularwp/wp-json/wp/v2/comments';
+    private authorsUrl = `${myGlobals.href}users/`;
+    private authorPostsUrl = `${myGlobals.href}posts?author=`;
+    private commentsUrl = `${myGlobals.href}comments`;
 
     constructor(
         private http: HttpClient

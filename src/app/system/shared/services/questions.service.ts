@@ -1,17 +1,15 @@
 import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs/index';
-import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs/index';
 import { AuthService } from './auth.service';
 import { Question } from '../models/question';
-import { tap } from 'rxjs/internal/operators';
 
-
+import * as myGlobals from './global';
 
 @Injectable()
 export class QuestionsService {
-    private questionsUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts';
-    private questionsEmbedUrl = 'http://localhost/angularwp/wp-json/wp/v2/posts?&_embed';
+    private questionsUrl = `${myGlobals.href}posts`;
+    private questionsEmbedUrl = `${myGlobals.href}posts?&_embed`;
 
     constructor(
         private http: HttpClient,

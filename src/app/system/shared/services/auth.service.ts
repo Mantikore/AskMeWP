@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Author } from '../models/author';
 import { BehaviorSubject, Observable } from 'rxjs/index';
+import * as myGlobals from './global';
+
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    private meUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/me';
-    private usersUrl = 'http://localhost/angularwp/wp-json/wp/v2/users/register';
-    private tokenUrl = 'http://localhost/angularwp/wp-json/jwt-auth/v1/token';
+    private meUrl = `${myGlobals.href}users/me`;
+    private usersUrl = `${myGlobals.href}users/register`;
+    private tokenUrl = `${myGlobals.hrefBase}jwt-auth/v1/token`;
     private isLoggedIn = new BehaviorSubject<boolean>(this.isLogged());
     isLoggedIn$ = this.isLoggedIn.asObservable();
 
@@ -41,10 +43,10 @@ export class AuthService {
             password: window.localStorage.getItem('password')
         });
     }
-    jwtAuth() {
+    jwtAuth(username, password) {
         const data = this.http.post(this.tokenUrl, {
-            username: window.localStorage.getItem('username'),
-            password: window.localStorage.getItem('password')
+            username: username,
+            password: password
         });
         return data;
     }

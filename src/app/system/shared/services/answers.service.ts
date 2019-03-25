@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/index';
-import { AuthorsService } from './authors.service';
-import { switchMap } from 'rxjs/internal/operators';
+import * as myGlobals from './global';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnswersService {
-    private answersUrl = 'http://localhost/angularwp/wp-json/wp/v2/comments?post=';
-    private allAnswersUrl = 'http://localhost/angularwp/wp-json/wp/v2/comments';
+    private answersUrl = `${myGlobals.href}comments?order=asc&&post=`;
+    private allAnswersUrl = `${myGlobals.href}comments`;
 
     constructor(
         private http: HttpClient,

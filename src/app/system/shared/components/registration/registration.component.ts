@@ -43,8 +43,8 @@ export class RegistrationComponent implements OnInit {
                   author.name = user['name'];
                   author.avatarUrl = 'assets/img/mystery.png';
                   window.localStorage.setItem('username', formData.username);
-                  window.localStorage.setItem('password', formData.password);
-                  this.authService.jwtAuth().subscribe(data => window.localStorage.setItem('token', data['token']));
+                  // window.localStorage.setItem('password', formData.password);
+                  this.authService.jwtAuth(formData.username, formData.password).subscribe(data => window.localStorage.setItem('token', data['token']));
                   this.authService.login();
                   this.isLogged = true;
                   this.signUpForm.emit(false);

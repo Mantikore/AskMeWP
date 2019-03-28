@@ -6,8 +6,8 @@ AskMe is the pet project with Angular front-end connected to Wordpress on it's b
 
 This project also use [Angular Editor](https://www.npmjs.com/package/@kolkov/angular-editor) wysiwyg editor.
 
-Demo is here [AskMe](https://angular.perun.top/system/questions)
-[Server side](https://wp.perun.top/)
+Demo is here [AskMe](https://angular.perun.top/system/questions) and 
+[WP Server side](https://wp.perun.top/)
 
 
 ## AskMe How To

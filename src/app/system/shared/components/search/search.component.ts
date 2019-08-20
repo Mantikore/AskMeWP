@@ -36,4 +36,9 @@ export class SearchComponent implements OnInit {
       this.searchTerms.next(term);
   }
 
+  onKeydown($event) {
+    if ($event.keyCode === 40) {
+       // todo
+    }
+  }
 }

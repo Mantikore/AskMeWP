@@ -19,8 +19,7 @@ export class AuthService {
 
     constructor(
         private http: HttpClient
-    ) {
-    }
+    ) {}
 
     getMe(): Observable<Object> {
         const username = window.localStorage.getItem('username');
@@ -31,7 +30,7 @@ export class AuthService {
         return this.http.get(this.meUrl, httpOptions);
     }
 
-    getToken() {
+    getToken(): Observable<Object> {
         return this.http.post(this.tokenUrl, {
             username: window.localStorage.getItem('username'),
             password: window.localStorage.getItem('password')
@@ -43,7 +42,7 @@ export class AuthService {
             password: window.localStorage.getItem('password')
         });
     }
-    jwtAuth(username, password) {
+    jwtAuth(username, password): Observable<Object> {
         const data = this.http.post(this.tokenUrl, {
             username: username,
             password: password

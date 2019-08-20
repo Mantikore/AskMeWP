@@ -5,6 +5,7 @@ import { Answer } from '../shared/models/answer';
 import { AuthService } from '../shared/services/auth.service';
 import { combineLatest, Observable, of } from 'rxjs';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { PaginationService } from '../shared/services/pagination.service';
 
 
 @Component({
@@ -15,11 +16,10 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class AnswersComponent implements OnInit {
 
     @Input() qid: number;
-    answers: Answer[] = [];
+    answers: Answer[];
     isLogged: Boolean;
+    isLoaded = false;
     pages: number;
-    answersCount: number;
-    token: string;
     htmlContent: string;
 
     editorConfig: AngularEditorConfig = {
@@ -35,9 +35,10 @@ export class AnswersComponent implements OnInit {
     constructor(
         private answersService: AnswersService,
         private authService: AuthService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private paginationService: PaginationService
     ) {}
-    getAnswers() {
+    getAnswers(): void {
         combineLatest(this.route.queryParams, this.route.params).subscribe(([paramsPage, paramsId]) => {
             const page = paramsPage.page;
             const id = paramsId.id;
@@ -54,17 +55,12 @@ export class AnswersComponent implements OnInit {
                     answer.date = item['date'];
                     this.answers.push(answer);
                 }
-                this.answersCount = data.headers.get('x-wp-total');
-                if (this.answersCount && this.answersCount > 10) {
-                    this.pages = Math.ceil(this.answersCount / 10);
-                } else {
-                    this.pages = 0;
-                }
-                return this.answers;
+                this.pages = this.paginationService.getPagesCount(data);
+                this.isLoaded = true;
             });
         });
     }
-    add(text: string): void {
+    addAnswer(text: string): void {
         text = text.trim();
         if (!text) {
             return ErrorEmpty();
@@ -82,6 +78,5 @@ export class AnswersComponent implements OnInit {
     ngOnInit() {
         this.getAnswers();
         this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged);
-
     }
 }

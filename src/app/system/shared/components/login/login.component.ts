@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
     error = '';
     message: Message;
     signUpForm = false;
+    isLoaded = true;
 
     constructor(
         private authService: AuthService,
@@ -52,11 +53,13 @@ export class LoginComponent implements OnInit {
     onLogIn() {
         const formData = this.form.value;
         this.error = '';
+        this.isLoaded = false;
         window.localStorage.setItem('username', formData.username);
         // window.localStorage.setItem('password', formData.password);
         this.authService.jwtAuth(formData.username, formData.password).subscribe(data => {
             window.localStorage.setItem('token', data['token']);
             this.authorsService.getAuthorBySlug(window.localStorage.getItem('username')).subscribe(user => {
+                // TODO export to service
                 const author = new Author();
                 author.id = user['id'];
                 author.name = user['name'];
@@ -64,14 +67,15 @@ export class LoginComponent implements OnInit {
                 author.slug = user['slug'];
                 this.authService.login();
                 this.isLogged = true;
+                this.isLoaded = true;
                 return this.author = author;
             });
         }, error => {
             this.authService.logout();
-            if (error.error.code = 'invalid_username')  {
+            this.isLoaded = true;
+            if (error.error.code === '[jwt_auth] invalid_username')  {
                 this.showMessage('This username doesn\'t exist');
-            }
-            if (error.error.code = 'invalid_password') {
+            } else if (error.error.code === '[jwt_auth] incorrect_password') {
                 this.showMessage('Password is incorrect');
             }
         });

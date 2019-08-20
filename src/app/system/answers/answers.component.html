@@ -1,31 +1,38 @@
-<div *ngIf="answers.length">
-  <h2 class="mb-3 mt-5">Answers</h2>
-  <div class="answers" *ngFor="let answer of answers" >
-    <div class="row answer">
-      <div class="col-md-1 pr-0">
-        <a routerLink="/system/author/{{answer.authorId}}"><img src="{{answer.authorAvatarUrl}}" width="100%"></a>
-      </div>
-      <div class="col-md-11">
-        <span class="title font-weight-bold"><a routerLink="/system/author/{{answer.authorId}}">{{answer.authorName}}</a></span>
-        <div class="date font-weight-light small">{{answer.date  | date:'medium' }}</div>
-        <div class="text e2e-inner-html-bound" [innerHTML]="answer.text">
+<div *ngIf="!isLoaded; else componentLoaded">
+  <app-loader></app-loader>
+</div>
+
+<ng-template #componentLoaded>
+  <div *ngIf="answers.length">
+    <h2 class="mb-3 mt-5">Answers</h2>
+    <div class="answers" *ngFor="let answer of answers" >
+      <div class="row answer">
+        <div class="col-md-1 pr-0">
+          <a routerLink="/system/author/{{answer.authorId}}"><img src="{{answer.authorAvatarUrl}}" width="100%"></a>
+        </div>
+        <div class="col-md-11">
+          <span class="title font-weight-bold"><a routerLink="/system/author/{{answer.authorId}}">{{answer.authorName}}</a></span>
+          <div class="date font-weight-light small">{{answer.date  | date:'medium' }}</div>
+          <div class="text e2e-inner-html-bound" [innerHTML]="answer.text">
+          </div>
         </div>
       </div>
+      <hr>
     </div>
-    <hr>
   </div>
-</div>
 
-<div *ngIf="pages">
-  <app-paginator [pages]="pages"></app-paginator>
-</div>
-
-<div *ngIf="isLogged">
-  <h4>Add answer:</h4>
-  <div class="w-100">
-    <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+  <div *ngIf="pages">
+    <app-paginator [pages]="pages"></app-paginator>
   </div>
-  <button class="btn btn-primary float-right"(click)="add(htmlContent); htmlContent=''">
-    Add Answer
-  </button>
-</div>
+
+  <div *ngIf="isLogged">
+    <h4>Add answer:</h4>
+    <div class="w-100">
+      <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+    </div>
+    <button class="btn btn-primary float-right"(click)="addAnswer(htmlContent); htmlContent=''">
+      Add Answer
+    </button>
+  </div>
+</ng-template>
+

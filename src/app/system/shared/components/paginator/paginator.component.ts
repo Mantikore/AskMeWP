@@ -40,4 +40,14 @@ export class PaginatorComponent implements OnChanges {
             this.activePage = this.activePage + 1;
         }
     }
+    getPagesCount(data) {
+      let pages = 0;
+      const dataCount = data.headers.get('x-wp-total');
+      if (dataCount && dataCount > 10) {
+        pages = Math.ceil(dataCount / 10);
+      } else {
+        this.pages = 0;
+      }
+      return pages;
+    }
 }

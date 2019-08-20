@@ -4,11 +4,14 @@
     <h3>{{category.name}}</h3>
     <span class="text-muted">{{questionsCount}} questions total</span>
   </div>
-
 </div>
 
-<section class="all-questions">
 
+<section class="all-questions" >
+
+  <div *ngIf="!isLoaded">
+    <app-loader></app-loader>
+  </div>
   <div *ngFor="let question of questions" class="question">
     <div class="d-flex">
       <a class="views mr-3 d-block" [class.inactive]="question.answers === 0" routerLink="/system/question/{{question.id}}" [queryParams]="{page: 1}">

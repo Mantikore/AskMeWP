@@ -2,6 +2,10 @@
     {{message.text}}
 </div>
 
+<div class="text-center align-middle" *ngIf="!isLoaded">
+    <app-loader></app-loader>
+</div>
+
 <div *ngIf="!isLogged && !signUpForm">
     <h5 class="text-xs-center">Log In</h5>
     <form [formGroup]="form" >

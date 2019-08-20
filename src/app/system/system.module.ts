@@ -27,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { GreetingsComponent } from './shared/components/greetings/greetings.component';
+import { LoaderComponent } from './shared/components/loader/loader.component';
 
 @NgModule({
     imports: [
@@ -54,7 +55,8 @@ import { GreetingsComponent } from './shared/components/greetings/greetings.comp
         AddQuestionComponent,
         PaginatorComponent,
         RegistrationComponent,
-        GreetingsComponent
+        GreetingsComponent,
+        LoaderComponent
     ],
     providers: [
         QuestionsService,
@@ -64,7 +66,8 @@ import { GreetingsComponent } from './shared/components/greetings/greetings.comp
         AuthorsService
     ],
     exports: [
-        ReadMorePipe
+        ReadMorePipe,
+        LoaderComponent
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,

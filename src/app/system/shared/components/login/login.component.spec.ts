@@ -1,25 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AuthService } from '../../services/auth.service';
 import { LoginComponent } from './login.component';
+import { AuthorsService } from '../../services/authors.service';
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
-  let fixture: ComponentFixture<LoginComponent>;
+    let component: LoginComponent;
+    let authService: AuthService;
+    let authorsService: AuthorsService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ LoginComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        authService = new AuthService(null);
+        authorsService = new AuthorsService(null);
+        component = new LoginComponent(authService, authorsService);
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('Should put username in localstorage when user try to login');
 });

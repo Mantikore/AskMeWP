@@ -5,9 +5,10 @@
        id="search-box"
        placeholder="Search"
        aria-label="Search"
-       (keyup)="search(searchBox.value)">
-<div class="dropdown-menu d-block float-none w-100" *ngIf="foundedQuestions.length">
-    <a class="dropdown-item p-2 font-weight-bold" *ngFor="let question of foundedQuestions" routerLink="/system/question/{{question.id}}" (click)="foundedQuestions = []">{{question.title.rendered}}</a>
+       (keyup)="search(searchBox.value)"
+       (keydown)="onKeydown($event)">
+<div class="dropdown-menu d-block float-none w-100" *ngIf="foundedQuestions.length" role="menu" id="dropdown-menu">
+    <a class="dropdown-item p-2 font-weight-bold" *ngFor="let question of foundedQuestions" routerLink="/system/question/{{question.id}}" (click)="foundedQuestions = []" role="option">{{question.title['rendered']}}</a>
 </div>
 <div class="dropdown-menu d-block float-none w-100" *ngIf="nothingFound">
     <a class="dropdown-item text-muted pl-2" >Your search returned no matches.</a>

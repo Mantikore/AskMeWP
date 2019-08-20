@@ -7,6 +7,7 @@ import { CategoriesService } from '../shared/services/categories.service';
 import { Category } from '../shared/models/category';
 import { AnswersService } from '../shared/services/answers.service';
 import { combineLatest, merge } from 'rxjs/index';
+import { PaginationService } from '../shared/services/pagination.service';
 
 @Component({
   selector: 'app-questions',
@@ -19,12 +20,14 @@ export class QuestionsComponent implements OnInit {
     category: Category;
     questionsCount: number;
     pages: number;
+    isLoaded = false;
 
     constructor(
         private questionsService: QuestionsService,
         private route: ActivatedRoute,
         private categoriesService: CategoriesService,
-        private answersService: AnswersService
+        private answersService: AnswersService,
+        private paginationService: PaginationService
     ) {}
 
     ngOnInit() {
@@ -41,10 +44,10 @@ export class QuestionsComponent implements OnInit {
             }
         });
     }
-    pluralizeAnswers(num) {
+    pluralizeAnswers(num): string {
         return num === 1 ? 'answer' : 'answers';
     }
-    getQuestionsFromData(data) {
+    getQuestionsFromData(data): void {
         this.questions = [];
         for (const item of Object.values(data.body)) {
             const question = new Question();
@@ -62,15 +65,10 @@ export class QuestionsComponent implements OnInit {
             question.author = author;
             this.questions.push(question);
         }
-        this.questionsCount = data.headers.get('x-wp-total');
-        if (this.questionsCount && this.questionsCount > 10) {
-            this.pages = Math.ceil(this.questionsCount / 10);
-        } else {
-            this.pages = 0;
-        }
-        return this.questions;
+        this.pages = this.paginationService.getPagesCount(data);
+        this.isLoaded = true;
     }
-    getCategoryFromData(data) {
+    getCategoryFromData(data): Category {
         this.category = new Category;
         this.category.name = data.name;
         this.category.slug = data.slug;

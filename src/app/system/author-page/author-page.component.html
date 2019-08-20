@@ -1,17 +1,23 @@
-<div class="author">
+<div *ngIf="!isLoaded; else componentLoaded">
+  <app-loader></app-loader>
+</div>
+<ng-template #componentLoaded>
+  <div class="author">
     <a routerLink="/system/author/{{author.slug}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>
     <a routerLink="/system/author/{{author.slug}}" class="font-weight-bold mr-1 d-inline-block">{{author.name}}</a>
-</div>
-<h3>Questions</h3>
-<div class="all-questions">
+  </div>
+  <h3>Questions</h3>
+  <div class="all-questions">
     <div *ngFor="let question of questions" class="question">
-        <div class="d-flex">
-            <div class="text w-100">
-                <h5 class="title"><a routerLink="/system/question/{{question.id}}">{{question.title}}</a></h5>
-                <div class="description" class="e2e-inner-html-bound" [innerHTML]="question.text | appReadMore: 200">
-                </div>
-            </div>
+      <div class="d-flex">
+        <div class="text w-100">
+          <h5 class="title"><a routerLink="/system/question/{{question.id}}">{{question.title}}</a></h5>
+          <div class="description" class="e2e-inner-html-bound" [innerHTML]="question.text | appReadMore: 200">
+          </div>
         </div>
+      </div>
     </div>
     <h5 *ngIf="questions.length === 0">No questions asked by this user yet</h5>
-</div>
+  </div>
+</ng-template>
+

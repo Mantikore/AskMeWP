@@ -9,6 +9,7 @@ import { Author } from '../../models/author';
 })
 export class MostActiveAuthorsComponent implements OnInit {
   authors: Author[];
+  isLoaded = false;
   constructor(private authorsService: AuthorsService) { }
 
   ngOnInit() {
@@ -22,6 +23,7 @@ export class MostActiveAuthorsComponent implements OnInit {
             author.avatarUrl = item['avatar_urls']['96'];
             authors.push(author);
         }
+        this.isLoaded = true;
         return this.authors = authors;
     });
   }

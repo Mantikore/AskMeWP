@@ -1,0 +1,8 @@
+
+<div class="hello">
+  Hello, <a routerLink="/system/author/{{author.slug}}"><img src="{{author.avatarUrl}}"></a> <a
+        routerLink="/system/author/{{author.slug}}">{{author.name}}</a>!<br>
+  <a class="dashed d-lg-none" (click)="onLogOut()"><small>Log Out</small></a>
+  <button class="btn btn-primary mt-3 d-none d-lg-block d-xl-block" (click)="onLogOut()">Log Out</button>
+</div>
+

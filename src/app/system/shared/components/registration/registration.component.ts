@@ -4,6 +4,7 @@ import { Message } from '../../models/message.model';
 import { AuthService } from '../../services/auth.service';
 import { Author } from '../../models/author';
 import { AuthorsService } from '../../services/authors.service';
+import * as myGlobals from '../../services/global';
 
 @Component({
   selector: 'app-registration',
@@ -18,6 +19,7 @@ export class RegistrationComponent implements OnInit {
     isLogged: boolean;
     @Output() signUpForm = new EventEmitter();
     @Output() author = new EventEmitter();
+    url = `${myGlobals.href}`;
 
   constructor(
       private authService: AuthService,
@@ -33,22 +35,20 @@ export class RegistrationComponent implements OnInit {
       });
   }
 
-  onSignUp() {
+  onSignUp(): void {
       const formData = this.form.value;
       this.error = '';
       this.authService.signUp(formData.username, formData.email, formData.password).subscribe(message => {
-              this.authorsService.getAuthorBySlug(formData.username).subscribe(user => {
-                  const author = new Author();
-                  author.id = user['id'];
-                  author.name = user['name'];
-                  author.avatarUrl = 'assets/img/mystery.png';
+              this.authorsService.getAuthorBySlug(formData.username).subscribe(authorData => {
+                  const author: Author = authorData;
+                  author.avatarUrl = `/assets/img/mystery.png`;
                   window.localStorage.setItem('username', formData.username);
-                  // window.localStorage.setItem('password', formData.password);
-                  this.authService.jwtAuth(formData.username, formData.password).subscribe(data => window.localStorage.setItem('token', data['token']));
+                  this.authService.jwtAuth(formData.username, formData.password)
+                    .subscribe(data => window.localStorage.setItem('token', data['token']));
                   this.authService.login();
                   this.isLogged = true;
                   this.signUpForm.emit(false);
-                  return this.author.emit(author);
+                  this.author.emit(author);
               });
       }, error => {
           this.authService.logout();
@@ -56,16 +56,15 @@ export class RegistrationComponent implements OnInit {
           if (error.error.code = '406')  {
               this.showMessage('This email or username is already exists');
           }
-
       });
   }
-  private showMessage(text: string, type: string = 'danger') {
+  private showMessage(text: string, type: string = 'danger'): void {
       this.message = new Message(type, text);
       window.setTimeout(() => {
           this.message.text = '';
       }, 5000);
   }
-  onLogInClick() {
+  onLogInClick(): void {
       this.signUpForm.emit(false);
   }
 }

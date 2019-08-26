@@ -14,11 +14,11 @@ export class AnswersService {
     constructor(
         private http: HttpClient,
     ) {}
-    getAnswersCount(id: number): Observable<HttpResponse<Object>> {
-        return this.http.get(this.answersUrl + id, {observe: 'response'});
+    getAnswersCount(id: number): Observable<HttpResponse<WpComment[]>> {
+        return this.http.get<WpComment[]>(this.answersUrl + id, {observe: 'response'});
     }
-    getAnswersPage(id: number, page: number): Observable<HttpResponse<Object>> {
-        return this.http.get(`${this.answersUrl}${id}&page=${page ? page : 1}`, {observe: 'response'});
+    getAnswersPage(id: number, page: number): Observable<HttpResponse<WpComment[]>> {
+        return this.http.get<WpComment[]>(`${this.answersUrl}${id}&page=${page ? page : 1}`, {observe: 'response'});
     }
     addAnswer(text: string, qid: number, token: string): Observable<WpComment> {
         const headers: HttpHeaders = new HttpHeaders({

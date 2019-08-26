@@ -9,7 +9,7 @@ export class MessageService {
 
   constructor() { }
 
-  private showMessage(text: string, type: string = 'danger') {
+  private showMessage(text: string, type: string = 'danger'): void {
       this.message = new Message(type, text);
       window.setTimeout(() => {
           this.message.text = '';

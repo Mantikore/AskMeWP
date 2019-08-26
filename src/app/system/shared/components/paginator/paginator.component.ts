@@ -14,9 +14,7 @@ export class PaginatorComponent implements OnChanges {
     activePage = +this.route.snapshot.paramMap.get('page') || 1;
     pageName;
 
-
-    constructor(private route: ActivatedRoute, private router: Router) {
-    }
+    constructor(private route: ActivatedRoute) {}
 
     ngOnChanges() {
       let i = 1;
@@ -27,27 +25,17 @@ export class PaginatorComponent implements OnChanges {
       this.pageName = window.location.pathname;
     }
 
-    onPageClick(page) {
+    onPageClick(page): void  {
         this.activePage = page;
     }
-    onPrevClick() {
+    onPrevClick(): void {
       if (this.activePage !== 1) {
           this.activePage = this.activePage - 1;
       }
     }
-    onNextClick() {
+    onNextClick(): void {
         if (this.activePage !== this.pages) {
             this.activePage = this.activePage + 1;
         }
-    }
-    getPagesCount(data) {
-      let pages = 0;
-      const dataCount = data.headers.get('x-wp-total');
-      if (dataCount && dataCount > 10) {
-        pages = Math.ceil(dataCount / 10);
-      } else {
-        this.pages = 0;
-      }
-      return pages;
     }
 }

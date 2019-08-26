@@ -3,6 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Author } from '../models/author';
 import { BehaviorSubject, Observable } from 'rxjs/index';
 import * as myGlobals from './global';
+import { WpUser } from '../models/wp-user';
+import { AuthorsService } from './authors.service';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -18,16 +21,17 @@ export class AuthService {
     author = new Author();
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private authorsService: AuthorsService
     ) {}
 
-    getMe(): Observable<Object> {
+    getMe(): Observable<WpUser> {
         const username = window.localStorage.getItem('username');
         const password = window.localStorage.getItem('password');
         const httpOptions = {
             headers: new HttpHeaders({'Authorization' : 'Basic ' + btoa( username + ':' + password ) })
         };
-        return this.http.get(this.meUrl, httpOptions);
+        return this.http.get<WpUser>(this.meUrl, httpOptions);
     }
 
     getToken(): Observable<Object> {
@@ -49,8 +53,8 @@ export class AuthService {
         });
         return data;
     }
-    signUp(username, email, password): Observable<Object> {
-        return this.http.post(this.usersUrl, {
+    signUp(username, email, password): Observable<WpUser> {
+        return this.http.post<WpUser>(this.usersUrl, {
             username: username,
             email: email,
             password: password
@@ -73,5 +77,9 @@ export class AuthService {
         } else {
             return false;
         }
+    }
+    showMe() {
+        const username = window.localStorage.getItem('username');
+        return this.authorsService.getAuthorBySlug(username);
     }
 }

@@ -35,45 +35,39 @@ export class QuestionsComponent implements OnInit {
             const page = paramsPage.page;
             const id = paramsId.id;
             if (id) {
-                this.categoriesService.getCategory(id).subscribe(data => this.getCategoryFromData(data));
-                this.categoriesService.getQuestionsByCategory(id).subscribe(data => this.getQuestionsFromData(data));
+                this.categoriesService.getCategory(id).subscribe(cat => { this.category = cat; });
+                this.categoriesService.getQuestionsByCategory(id).subscribe(this.getQuestionsFromData);
             } else if (page) {
-                this.questionsService.getQuestionsPage(page).subscribe(data => this.getQuestionsFromData(data));
+                this.questionsService.getQuestionsPage(page).subscribe(this.getQuestionsFromData);
             } else {
-                this.questionsService.getQuestionsEmbed().subscribe(data => this.getQuestionsFromData(data));
+                this.questionsService.getQuestionsEmbed().subscribe(this.getQuestionsFromData);
             }
         });
     }
     pluralizeAnswers(num): string {
         return num === 1 ? 'answer' : 'answers';
     }
-    getQuestionsFromData(data): void {
+    getQuestionsFromData = (data): void => {
         this.questions = [];
-        for (const item of Object.values(data.body)) {
-            const question = new Question();
-            const author = new Author();
-            question.id = item['id'];
-            question.title = item['title'].rendered;
-            question.text = item['content'].rendered;
-            question.answers = 0;
-            this.answersService.getAnswersCount(question.id).subscribe(count => question.answers = +count.headers.get('x-wp-total'));
-            question.date = item['date'];
-            author.id = item['author'];
-            author.name = item['_embedded'].author[0].name;
-            author.avatarUrl = item['_embedded'].author[0].avatar_urls['96'];
-            author.slug = item['_embedded'].author[0].slug;
-            question.author = author;
-            this.questions.push(question);
-        }
+        this.questionsCount = data.body.length;
+        data.body.map( item => {
+          const question = new Question();
+          const author = new Author();
+          question.id = item['id'];
+          question.title = item.title.rendered;
+          question.text = item.content.rendered;
+          question.answers = 0;
+          question.date = item.date;
+          this.answersService.getAnswersCount(question.id).subscribe(count => question.answers = +count.headers.get('x-wp-total'));
+          author.id = item.author;
+          author.name = item._embedded.author[0].name;
+          author.avatarUrl = item._embedded.author[0].avatar_urls['96'];
+          author.slug = item._embedded.author[0].slug;
+          question.author = author;
+          this.questions.push(question);
+        });
         this.pages = this.paginationService.getPagesCount(data);
         this.isLoaded = true;
-    }
-    getCategoryFromData(data): Category {
-        this.category = new Category;
-        this.category.name = data.name;
-        this.category.slug = data.slug;
-        this.category.id = data.id;
-        return this.category;
     }
 }
 

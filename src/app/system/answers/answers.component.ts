@@ -45,16 +45,16 @@ export class AnswersComponent implements OnInit {
             this.answersService.getAnswersPage(id, page).subscribe(data => {
                 this.answers = [];
                 this.isLogged = this.authService.isLogged();
-                for (const item of Object.values(data.body)) {
-                    const answer = new Answer();
-                    answer.id = item['id'];
-                    answer.text = item['content']['rendered'];
-                    answer.authorId = item['author'];
-                    answer.authorAvatarUrl = item['author_avatar_urls']['96'];
-                    answer.authorName = item['author_name'];
-                    answer.date = item['date'];
-                    this.answers.push(answer);
-                }
+                data.body.map(item => {
+                  const answer = new Answer();
+                  answer.id = item['id'];
+                  answer.text = item['content']['rendered'];
+                  answer.authorId = item['author'];
+                  answer.authorAvatarUrl = item['author_avatar_urls']['96'];
+                  answer.authorName = item['author_name'];
+                  answer.date = item['date'];
+                  this.answers.push(answer);
+                });
                 this.pages = this.paginationService.getPagesCount(data);
                 this.isLoaded = true;
             });
@@ -69,7 +69,7 @@ export class AnswersComponent implements OnInit {
             .subscribe(answer => {
                 this.getAnswers();
             });
-        function ErrorEmpty() {
+        function ErrorEmpty(): void {
             if (!text) {
                 alert('Insert text!');
             }

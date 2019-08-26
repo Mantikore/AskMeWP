@@ -15,6 +15,7 @@ export class AuthorPageComponent implements OnInit {
   author: Author;
   questions: Question[];
   isLoaded = false;
+  pages: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,21 +25,9 @@ export class AuthorPageComponent implements OnInit {
   getAuthor(): void {
     const slug = this.route.snapshot.paramMap.get('slug');
     this.authorService.getAuthorBySlug(slug).subscribe(authorData => {
-      this.author = new Author();
-      this.author.id = authorData.id;
-      this.author.name = authorData.name;
-      this.author.avatarUrl = authorData.avatar_urls['96'];
-      this.author.slug = authorData.slug;
+      this.author = authorData;
       this.authorService.getAuthorQuestions(this.author.id).subscribe(questionsData => {
-        this.questions = [];
-        for (const item of Object.values(questionsData)) {
-          const question = new Question();
-          question.id = item['id'];
-          question.title = item['title'].rendered;
-          question.text = item['content'].rendered;
-          question.date = item['date'];
-          this.questions.push(question);
-        }
+        this.questions = questionsData;
         this.isLoaded = true;
       });
     });

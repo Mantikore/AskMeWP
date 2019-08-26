@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
     form: FormGroup;
     author = new Author();
     isLogged: boolean;
-    user = {};
     error = '';
     message: Message;
     signUpForm = false;
@@ -27,7 +26,7 @@ export class LoginComponent implements OnInit {
         private authorsService: AuthorsService
     ) {}
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.message = new Message('danger', '');
         this.form = new FormGroup({
             'username': new FormControl(null, [Validators.required]),
@@ -37,38 +36,25 @@ export class LoginComponent implements OnInit {
         this.authService.isLoggedIn$.subscribe(isLogged => {
             this.isLogged = isLogged;
             if (this.isLogged) {
-                const username = window.localStorage.getItem('username');
-                this.user = this.authorsService.getAuthorBySlug(username).subscribe(me => {
-                    this.author.id = me['id'];
-                    this.author.name = me['name'];
-                    this.author.avatarUrl = me['avatar_urls']['96'];
-                    this.author.slug = me['slug'];
+                this.authService.showMe().subscribe(loggedAuthor => {
+                  this.author = loggedAuthor;
                 });
             }
         });
-
-
     }
 
-    onLogIn() {
+    onLogIn(): void {
         const formData = this.form.value;
         this.error = '';
         this.isLoaded = false;
         window.localStorage.setItem('username', formData.username);
-        // window.localStorage.setItem('password', formData.password);
         this.authService.jwtAuth(formData.username, formData.password).subscribe(data => {
             window.localStorage.setItem('token', data['token']);
-            this.authorsService.getAuthorBySlug(window.localStorage.getItem('username')).subscribe(user => {
-                // TODO export to service
-                const author = new Author();
-                author.id = user['id'];
-                author.name = user['name'];
-                author.avatarUrl = user['avatar_urls']['96'];
-                author.slug = user['slug'];
+            this.authorsService.getAuthorBySlug(window.localStorage.getItem('username')).subscribe(userData => {
+                this.author = userData;
                 this.authService.login();
                 this.isLogged = true;
                 this.isLoaded = true;
-                return this.author = author;
             });
         }, error => {
             this.authService.logout();
@@ -81,25 +67,25 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    onLogOut() {
+    onLogOut(): void {
         this.authService.logout();
         this.isLogged = false;
         this.author = new Author();
     }
 
-    private showMessage(text: string, type: string = 'danger') {
+    private showMessage(text: string, type: string = 'danger'): void {
         this.message = new Message(type, text);
         window.setTimeout(() => {
             this.message.text = '';
         }, 5000);
     }
-    onSignUpClick() {
+    onSignUpClick(): void {
         this.signUpForm = true;
     }
-    signInEmitter(signIn) {
+    signInEmitter(signIn): void {
         this.signUpForm = signIn;
     }
-    logInEmitter(author) {
+    logInEmitter(author): void {
         this.author = author;
         this.isLogged = true;
     }

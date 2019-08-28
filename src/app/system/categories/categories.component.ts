@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Category } from '../shared/models/category';
 import { CategoriesService } from '../shared/services/categories.service';
 
@@ -9,16 +9,12 @@ import { CategoriesService } from '../shared/services/categories.service';
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  @Input() question: number;
-  categories: Category[];
+  @Input() categoriesIdArray: number[];
+  categories: object[];
 
   constructor(private categoriesService: CategoriesService) { }
 
   ngOnInit() {
-    this.categoriesService.getQuestionCategories(this.question).subscribe(categoriesData => {
-        this.categories = categoriesData;
-    });
-
+    this.categories = this.categoriesService.getCategories(this.categoriesIdArray);
   }
-
 }

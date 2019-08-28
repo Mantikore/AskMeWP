@@ -7,4 +7,5 @@ export class Question {
     answers: number;
     date: string;
     author: Author;
+    categories: [number];
 }

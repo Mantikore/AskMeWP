@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/index';
+import { from } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import * as myGlobals from './global';
 import { Category } from '../models/category';
@@ -11,7 +12,7 @@ import { WpPost } from '../models/wp-post';
   providedIn: 'root'
 })
 export class CategoriesService {
-
+    public allCategories;
     private categoriesUrl = `${myGlobals.href}categories`;
     private categoryPostsUrl = `${myGlobals.href}posts?&_embed&categories=`;
 
@@ -35,6 +36,22 @@ export class CategoriesService {
           });
           return categories;
         }));
+    }
+    getAllCategories() {
+        this.http.get<WpCategory[]>(`${this.categoriesUrl}`).subscribe(data => {
+          this.allCategories = data;
+        });
+    }
+    getCategories(categoriesIdArray): object[] {
+        const indexedCategories = {};
+        const neededCategories = [];
+        for (const category of this.allCategories) {
+          indexedCategories[category.id] = { name: category.name, slug: category.slug };
+        }
+        for (const categoryId of categoriesIdArray) {
+          neededCategories.push({id: categoryId, name: indexedCategories[categoryId].name, slug: indexedCategories[categoryId].slug});
+        }
+        return neededCategories;
     }
     getCategory(id: number): Observable<Category> {
         return this.http.get<WpCategory>(`${this.categoriesUrl}/${id}`).pipe(map(item => {

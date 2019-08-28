@@ -1,14 +1,12 @@
 import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs/index';
-import { AuthService } from './auth.service';
 import { Question } from '../models/question';
 
 import * as myGlobals from './global';
 import { WpPost } from '../models/wp-post';
 import { map } from 'rxjs/operators';
 import { Author } from '../models/author';
-import { AuthorsService } from './authors.service';
 
 @Injectable()
 export class QuestionsService {
@@ -16,9 +14,7 @@ export class QuestionsService {
     private questionsEmbedUrl = `${myGlobals.href}posts?&_embed`;
 
     constructor(
-        private http: HttpClient,
-        private authService: AuthService,
-        private authorsService: AuthorsService
+        private http: HttpClient
     ) {}
 
     getQuestion(id: number): Observable<Question> {

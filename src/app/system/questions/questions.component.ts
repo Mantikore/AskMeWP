@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnChanges, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { QuestionsService } from '../shared/services/questions.service';
 import { Question } from '../shared/models/question';
 import { Author } from '../shared/models/author';
@@ -8,19 +8,21 @@ import { Category } from '../shared/models/category';
 import { AnswersService } from '../shared/services/answers.service';
 import { combineLatest, merge } from 'rxjs/index';
 import { PaginationService } from '../shared/services/pagination.service';
+import { CategoriesComponent } from '../categories/categories.component';
 
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.scss']
 })
-export class QuestionsComponent implements OnInit {
+export class QuestionsComponent implements AfterViewInit {
 
     questions: Question[];
     category: Category;
     questionsCount: number;
     pages: number;
     isLoaded = false;
+    @ViewChildren(CategoriesComponent) categories !: QueryList<CategoriesComponent>;
 
     constructor(
         private questionsService: QuestionsService,
@@ -30,7 +32,9 @@ export class QuestionsComponent implements OnInit {
         private paginationService: PaginationService
     ) {}
 
-    ngOnInit() {
+    ngAfterViewInit() {
+        // we don't want to wait while categories are loading, so we are using this init
+        this.categoriesService.getAllCategories();
         combineLatest(this.route.queryParams, this.route.params).subscribe(([paramsPage, paramsId]) => {
             const page = paramsPage.page;
             const id = paramsId.id;
@@ -58,6 +62,7 @@ export class QuestionsComponent implements OnInit {
           question.text = item.content.rendered;
           question.answers = 0;
           question.date = item.date;
+          question.categories = item.categories;
           this.answersService.getAnswersCount(question.id).subscribe(count => question.answers = +count.headers.get('x-wp-total'));
           author.id = item.author;
           author.name = item._embedded.author[0].name;

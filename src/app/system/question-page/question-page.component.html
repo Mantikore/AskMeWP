@@ -6,7 +6,7 @@
     <a routerLink="/system/author/{{author.slug}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>
     <a routerLink="/system/author/{{author.slug}}" class="font-weight-bold mr-1 d-inline-block">{{author.name}}</a> <span class="date font-weight-light small">asked {{question.date  | date:'medium' }}</span>
   </div>
-  <app-categories [question]="question.id"></app-categories>
+  <app-categories [categoriesIdArray]="question.categories"></app-categories>
   <hr>
   <h1 class="title mb-4">{{question.title}}</h1>
   <div class="text" class="e2e-inner-html-bound mb-5" [innerHTML]="question.text">

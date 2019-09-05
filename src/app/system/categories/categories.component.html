@@ -1,4 +1,6 @@
-
+<h5 *ngIf="categoriesIdArray === undefined" class="float-left pr-3 pt-1">
+  Categories
+</h5>
 <a routerLink="/system/category/{{category.id}}" *ngFor="let category of categories" class="category-tag">
   <img src="assets/img/{{category.slug}}.png" /> <span>{{category.name}}</span>
 </a>

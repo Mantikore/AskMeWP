@@ -32,12 +32,19 @@ body, html, .container-fluid, .main-section
     max-width: 16.66666667%;
     color: $gray-200;
   }
+
 }
 
 .right-side {
   background-color: $gray-200;
+
 }
 
+.bottom-section {
+  background-color: darken( $primary-bg, 5% );
+  width: 100%;
+  color: $gray-200;
+}
 
 .main-section {
   padding-top: 30px;

@@ -24,6 +24,7 @@ export class QuestionsService {
           question.title = questionData.title.rendered;
           question.text = questionData.content.rendered;
           question.date = questionData.date;
+          question.categories = questionData.categories;
           question.author = new Author();
           question.author.id = questionData.author;
           return question;

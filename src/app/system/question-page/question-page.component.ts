@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { QuestionsService } from '../shared/services/questions.service';
 import { Author } from '../shared/models/author';
 import { AuthorsService } from '../shared/services/authors.service';
+import { CategoriesService } from '../shared/services/categories.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class QuestionPageComponent implements OnInit {
     constructor(
       private route: ActivatedRoute,
       private questionService: QuestionsService,
-      private authorsService: AuthorsService
+      private authorsService: AuthorsService,
+      private categoriesService: CategoriesService
     ) {}
 
     ngOnInit(): void {

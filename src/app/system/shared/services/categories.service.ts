@@ -12,13 +12,13 @@ import { WpPost } from '../models/wp-post';
   providedIn: 'root'
 })
 export class CategoriesService {
-    public allCategories;
+    public allCategories = [];
     private categoriesUrl = `${myGlobals.href}categories`;
     private categoryPostsUrl = `${myGlobals.href}posts?&_embed&categories=`;
 
-    constructor(
-        private http: HttpClient
-    ) {}
+    constructor(private http: HttpClient) {
+        this.getAllCategories();
+    }
 
     getQuestionsByCategory(id: number): Observable<HttpResponse<WpPost[]>> {
         return this.http.get<WpPost[]>(`${this.categoryPostsUrl}${id}`, { observe: 'response' });
@@ -37,12 +37,28 @@ export class CategoriesService {
           return categories;
         }));
     }
+
     getAllCategories() {
         this.http.get<WpCategory[]>(`${this.categoriesUrl}`).subscribe(data => {
           this.allCategories = data;
         });
+        return this.allCategories;
     }
-    getCategories(categoriesIdArray): object[] {
+    getListedCategories(): Observable<Category[]> {
+      return this.http.get<WpCategory[]>(`${this.categoriesUrl}`).pipe(map(categoriesData => {
+        const categories = [];
+        categoriesData.map(item => {
+          const category = new Category();
+          category.id = item['id'];
+          category.name = item['name'];
+          category.slug = item['slug'];
+          category.count = item['count'];
+          categories.push(category);
+        });
+        return categories;
+      }));
+    }
+    getCategories(categoriesIdArray): Category[] {
         const indexedCategories = {};
         const neededCategories = [];
         for (const category of this.allCategories) {

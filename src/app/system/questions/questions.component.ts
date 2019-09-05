@@ -15,14 +15,13 @@ import { CategoriesComponent } from '../categories/categories.component';
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.scss']
 })
-export class QuestionsComponent implements AfterViewInit {
+export class QuestionsComponent implements OnInit {
 
     questions: Question[];
     category: Category;
     questionsCount: number;
     pages: number;
     isLoaded = false;
-    @ViewChildren(CategoriesComponent) categories !: QueryList<CategoriesComponent>;
 
     constructor(
         private questionsService: QuestionsService,
@@ -32,9 +31,7 @@ export class QuestionsComponent implements AfterViewInit {
         private paginationService: PaginationService
     ) {}
 
-    ngAfterViewInit() {
-        // we don't want to wait while categories are loading, so we are using this init
-        this.categoriesService.getAllCategories();
+    ngOnInit() {
         combineLatest(this.route.queryParams, this.route.params).subscribe(([paramsPage, paramsId]) => {
             const page = paramsPage.page;
             const id = paramsId.id;

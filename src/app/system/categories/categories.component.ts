@@ -10,11 +10,17 @@ import { CategoriesService } from '../shared/services/categories.service';
 })
 export class CategoriesComponent implements OnInit {
   @Input() categoriesIdArray: number[];
-  categories: object[];
+  categories: Category[];
 
   constructor(private categoriesService: CategoriesService) { }
 
   ngOnInit() {
-    this.categories = this.categoriesService.getCategories(this.categoriesIdArray);
+    if (this.categoriesIdArray !== undefined) {
+      this.categories = this.categoriesService.getCategories(this.categoriesIdArray);
+    } else {
+      this.categoriesService.getListedCategories().subscribe(data => {
+        this.categories = data;
+      });
+    }
   }
 }

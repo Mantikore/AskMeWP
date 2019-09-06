@@ -19,17 +19,24 @@
           <img src="assets/img/icon-ok.png" class="align-baseline"><strong> {{ question.answers }}</strong>
           {{  pluralizeAnswers(question.answers) }}
         </a>
-        <div class="text w-100">
+        <div class="text flex-shrink-0">
           <h5 class="title"><a routerLink="/system/question/{{question.id}}" [queryParams]="{page: 1}">{{question.title}}</a></h5>
           <div class="description" class="e2e-inner-html-bound" [innerHTML]="question.text | appReadMore">
           </div>
           <a *ngIf="question.text.length > 400" class="d-inline-block w-100" routerLink="/system/question/{{question.id}}" [queryParams]="{page: 1}">Read More</a>
-          <div class="author float-right">
-            Asked {{question.date | date:'medium'}} <a routerLink="/system/author/{{question.author.id}}" class="d-inline-block ml-2"><img src="{{question.author.avatarUrl}}"></a> <a routerLink="/system/author/{{question.author.slug}}" class="author">{{question.author.name}}</a>
-          </div>
         </div>
       </div>
-      <app-categories [categoriesIdArray]="question.categories"></app-categories>
+      <div class="d-flex">
+        <div class="pull-left flex-grow-1">
+          <app-categories [categoriesIdArray]="question.categories"></app-categories>
+        </div>
+        <div class="author text-right">
+          Asked {{question.date | date:'medium'}}
+          <br>
+          <a routerLink="/system/author/{{question.author.id}}" class="d-inline-block"><img src="{{question.author.avatarUrl}}"></a>
+          <a routerLink="/system/author/{{question.author.slug}}" class="author">{{question.author.name}}</a>
+        </div>
+      </div>
       <hr>
     </div>
   </div>

@@ -7,10 +7,10 @@
     <h2 class="mb-3 mt-5">Answers</h2>
     <div class="answers" *ngFor="let answer of answers" >
       <div class="row answer">
-        <div class="col-md-1 pr-0">
+        <div class="col-1 pr-0">
           <a routerLink="/system/author/{{answer.authorId}}"><img src="{{answer.authorAvatarUrl}}" width="100%"></a>
         </div>
-        <div class="col-md-11">
+        <div class="col-11">
           <span class="title font-weight-bold"><a routerLink="/system/author/{{answer.authorId}}">{{answer.authorName}}</a></span>
           <div class="date font-weight-light small">{{answer.date  | date:'medium' }}</div>
           <div class="text e2e-inner-html-bound" [innerHTML]="answer.text">

@@ -32,6 +32,13 @@ body, html, .container-fluid, .main-section
     max-width: 16.66666667%;
     color: $gray-200;
   }
+  .bottom-section {
+    background-color: darken( $primary-bg, 5% );
+    width: 100%;
+    color: $gray-200;
+    flex: 0 0 16.66666667%;
+    max-width: 16.66666667%;
+  }
 
 }
 
@@ -40,11 +47,7 @@ body, html, .container-fluid, .main-section
 
 }
 
-.bottom-section {
-  background-color: darken( $primary-bg, 5% );
-  width: 100%;
-  color: $gray-200;
-}
+
 
 .main-section {
   padding-top: 30px;
@@ -125,7 +128,7 @@ body, html, .container-fluid, .main-section
     display: none;
   }
   .main-section {
-    padding-top: 10rem;
+    padding-top: 8rem;
   }
   .navbar-brand {
     text-align: left;
@@ -150,12 +153,19 @@ pre {
   margin-bottom: 1rem;
   overflow: auto;
   -ms-overflow-style: scrollbar;
-  margin: 10px;
-  padding: 20px;
+  margin: 10px 0;
+  padding: 10px;
   background-color: #eee;
   white-space: pre;
   text-shadow: 0 1px 0 white;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2) inset, 0 0 10px rgba(0,0,0,0.1) inset;
   font: 16px/24px 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+  width: auto;
+  min-width:0;
+}
+pre code {
+  white-space: inherit;
+  padding: 0;
+  min-width:0;
 }

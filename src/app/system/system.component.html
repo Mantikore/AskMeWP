@@ -7,6 +7,9 @@
                 <!--<app-login (loginEmitter)="updateLoginStatus($event)" ></app-login>-->
                 <app-login *ngIf="innerWidth > 992"></app-login>
             </div>
+            <div class="bottom-section  fixed-bottom p-2">
+              <app-categories></app-categories>
+            </div>
         </div>
         <div class="col-lg-7 main-section">
             <router-outlet></router-outlet>
@@ -17,9 +20,6 @@
             </aside>
         </div>
     </div>
-</div>
-<div class="bottom-section  fixed-bottom p-2">
-  <app-categories></app-categories>
 </div>
 <app-footer>
 </app-footer>

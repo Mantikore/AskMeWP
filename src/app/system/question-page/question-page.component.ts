@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnChanges, OnInit } from '@angular/core';
 import { Question } from '../shared/models/question';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { QuestionsService } from '../shared/services/questions.service';
 import { Author } from '../shared/models/author';
 import { AuthorsService } from '../shared/services/authors.service';
@@ -20,22 +20,30 @@ export class QuestionPageComponent implements OnInit {
 
     constructor(
       private route: ActivatedRoute,
+      private router: Router,
       private questionService: QuestionsService,
       private authorsService: AuthorsService,
       private categoriesService: CategoriesService
     ) {}
 
-    ngOnInit(): void {
-        this.routeId = +this.route.snapshot.paramMap.get('id');
-        this.questionService.getQuestion(this.routeId).subscribe(questionData => {
-            this.question = new Question();
-            this.authorsService.getAuthor(questionData.author.id).subscribe(authorData => {
-              this.author = authorData;
-              this.question.author = authorData;
-            });
-            this.question = questionData;
-            this.isLoaded = true;
+    getCurrentQuestion() {
+      this.routeId = +this.route.snapshot.paramMap.get('id');
+      this.questionService.getQuestion(this.routeId).subscribe(questionData => {
+        this.question = new Question();
+        this.authorsService.getAuthor(questionData.author.id).subscribe(authorData => {
+          this.author = authorData;
+          this.question.author = authorData;
         });
+        this.question = questionData;
+        this.isLoaded = true;
+      });
     }
-
+    ngOnInit(): void {
+      this.getCurrentQuestion();
+      this.router.events.subscribe(e => {
+        if (e instanceof NavigationEnd) {
+          this.getCurrentQuestion();
+        }
+      });
+    }
 }

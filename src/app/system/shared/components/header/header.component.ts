@@ -10,6 +10,7 @@ export class HeaderComponent implements OnInit {
 
     isLogged: Boolean;
     public innerWidth: any;
+    error = '';
 
 
     constructor(
@@ -17,7 +18,7 @@ export class HeaderComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged);
+        this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged, err => this.error = err.statusText);
         this.innerWidth = window.innerWidth;
     }
     @HostListener('window:resize', ['$event'])

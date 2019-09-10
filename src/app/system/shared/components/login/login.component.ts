@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
                 this.authService.login();
                 this.isLogged = true;
                 this.isLoaded = true;
-            });
+            }, err => this.error = err.statusText);
         }, error => {
             this.authService.logout();
             this.isLoaded = true;

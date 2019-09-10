@@ -11,6 +11,7 @@ import { CategoriesService } from '../shared/services/categories.service';
 export class CategoriesComponent implements OnInit {
   @Input() categoriesIdArray: number[];
   categories: Category[];
+  error: '';
 
   constructor(private categoriesService: CategoriesService) { }
 
@@ -20,7 +21,8 @@ export class CategoriesComponent implements OnInit {
     } else {
       this.categoriesService.getListedCategories().subscribe(data => {
         this.categories = data;
-      });
+      },
+        err => this.error = err.statusText);
     }
   }
 }

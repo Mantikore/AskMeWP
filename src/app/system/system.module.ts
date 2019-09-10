@@ -28,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { GreetingsComponent } from './shared/components/greetings/greetings.component';
 import { LoaderComponent } from './shared/components/loader/loader.component';
+import { ErrorIndicatorComponent } from './shared/components/error-indicator/error-indicator.component';
 
 @NgModule({
     imports: [
@@ -56,7 +57,8 @@ import { LoaderComponent } from './shared/components/loader/loader.component';
         PaginatorComponent,
         RegistrationComponent,
         GreetingsComponent,
-        LoaderComponent
+        LoaderComponent,
+        ErrorIndicatorComponent
     ],
     providers: [
         QuestionsService,

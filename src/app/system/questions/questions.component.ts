@@ -22,6 +22,7 @@ export class QuestionsComponent implements OnInit {
     questionsCount: number;
     pages: number;
     isLoaded = false;
+    error = '';
 
     constructor(
         private questionsService: QuestionsService,
@@ -36,14 +37,14 @@ export class QuestionsComponent implements OnInit {
             const page = paramsPage.page;
             const id = paramsId.id;
             if (id) {
-                this.categoriesService.getCategory(id).subscribe(cat => { this.category = cat; });
-                this.categoriesService.getQuestionsByCategory(id).subscribe(this.getQuestionsFromData);
+                this.categoriesService.getCategory(id).subscribe(cat => this.category = cat, this.getError);
+                this.categoriesService.getQuestionsByCategory(id).subscribe(this.getQuestionsFromData, this.getError);
             } else if (page) {
-                this.questionsService.getQuestionsPage(page).subscribe(this.getQuestionsFromData);
+                this.questionsService.getQuestionsPage(page).subscribe(this.getQuestionsFromData, this.getError);
             } else {
-                this.questionsService.getQuestionsEmbed().subscribe(this.getQuestionsFromData);
+                this.questionsService.getQuestionsEmbed().subscribe(this.getQuestionsFromData, this.getError);
             }
-        });
+        }, this.getError);
     }
     pluralizeAnswers(num): string {
         return num === 1 ? 'answer' : 'answers';
@@ -70,6 +71,10 @@ export class QuestionsComponent implements OnInit {
         });
         this.pages = this.paginationService.getPagesCount(data);
         this.isLoaded = true;
+    }
+    getError = err => {
+      this.error = err.statusText;
+      this.isLoaded = true;
     }
 }
 

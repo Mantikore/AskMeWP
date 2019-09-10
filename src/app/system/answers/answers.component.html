@@ -1,6 +1,9 @@
 <div *ngIf="!isLoaded; else componentLoaded">
   <app-loader></app-loader>
 </div>
+<div *ngIf="error">
+  <app-error-indicator [err]="error"></app-error-indicator>
+</div>
 
 <ng-template #componentLoaded>
   <div *ngIf="answers.length">
@@ -28,7 +31,7 @@
   <div *ngIf="isLogged">
     <h4>Add answer:</h4>
     <div class="w-100">
-      <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+      <angular-editor placeholder="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
     </div>
     <button class="btn btn-primary float-right"(click)="addAnswer(htmlContent); htmlContent=''">
       Add Answer

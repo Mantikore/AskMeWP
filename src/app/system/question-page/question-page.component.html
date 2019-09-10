@@ -1,6 +1,10 @@
 <div class="text-center align-middle" *ngIf="!isLoaded">
   <app-loader></app-loader>
 </div>
+<div *ngIf="error">
+  <app-error-indicator [err]="error"></app-error-indicator>
+</div>
+
 <div *ngIf="question">
   <div class="author">
     <a routerLink="/system/author/{{author.slug}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>

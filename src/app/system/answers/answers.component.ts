@@ -21,6 +21,7 @@ export class AnswersComponent implements OnInit {
     isLoaded = false;
     pages: number;
     htmlContent: string;
+    error = '';
 
     editorConfig: AngularEditorConfig = {
         editable: true,
@@ -57,8 +58,10 @@ export class AnswersComponent implements OnInit {
                 });
                 this.pages = this.paginationService.getPagesCount(data);
                 this.isLoaded = true;
-            });
-        });
+            },
+              err => this.error = err.statusText);
+        },
+          err => this.error = err.statusText);
     }
     addAnswer(text: string): void {
         text = text.trim();
@@ -68,7 +71,8 @@ export class AnswersComponent implements OnInit {
         this.answersService.addAnswer(text, this.qid, window.localStorage.getItem('token'))
             .subscribe(answer => {
                 this.getAnswers();
-            });
+            },
+              err => this.error = err.statusText);
         function ErrorEmpty(): void {
             if (!text) {
                 alert('Insert text!');
@@ -77,6 +81,6 @@ export class AnswersComponent implements OnInit {
     }
     ngOnInit() {
         this.getAnswers();
-        this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged);
+        this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged, err => this.error = err.statusText);
     }
 }

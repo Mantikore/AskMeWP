@@ -1,6 +1,10 @@
 <div *ngIf="!isLoaded; else componentLoaded">
   <app-loader></app-loader>
 </div>
+<div *ngIf="error">
+  <app-error-indicator [err]="error"></app-error-indicator>
+</div>
+
 <ng-template #componentLoaded>
   <div class="author">
     <a routerLink="/system/author/{{author.slug}}"><img src="{{author.avatarUrl}}" class="mr-2"></a>
@@ -12,7 +16,7 @@
       <div class="d-flex">
         <div class="text w-100">
           <h5 class="title"><a routerLink="/system/question/{{question.id}}">{{question.title}}</a></h5>
-          <div class="description" class="e2e-inner-html-bound" [innerHTML]="question.text | appReadMore: 200">
+          <div class="description" class="e2e-inner-html-bound" [innerHTML]="question.text | appReadMore: 250">
           </div>
         </div>
       </div>

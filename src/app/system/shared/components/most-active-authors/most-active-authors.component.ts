@@ -10,6 +10,7 @@ import { Author } from '../../models/author';
 export class MostActiveAuthorsComponent implements OnInit {
   authors: Author[] = [];
   isLoaded = false;
+  error = '';
 
   constructor(private authorsService: AuthorsService) {}
 
@@ -17,6 +18,6 @@ export class MostActiveAuthorsComponent implements OnInit {
     this.authorsService.getAuthors().subscribe(data => {
         this.authors = data;
         this.isLoaded = true;
-    });
+    }, err => this.error = err.statusText);
   }
 }

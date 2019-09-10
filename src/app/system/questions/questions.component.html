@@ -1,3 +1,10 @@
+<div *ngIf="error">
+  <app-error-indicator [err]="error"></app-error-indicator>
+</div>
+<div *ngIf="!isLoaded">
+  <app-loader></app-loader>
+</div>
+
 <div *ngIf="category" class="w-100 text-center">
   <div  class="category mb-5 ">
     <img src="assets/img/{{category.slug}}.png" />
@@ -6,12 +13,8 @@
   </div>
 </div>
 
-
 <section class="all-questions" >
 
-  <div *ngIf="!isLoaded">
-    <app-loader></app-loader>
-  </div>
   <div>
     <div *ngFor="let question of questions" class="question">
       <div class="d-flex">

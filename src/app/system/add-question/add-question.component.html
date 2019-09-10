@@ -1,3 +1,7 @@
+<div *ngIf="error">
+  <app-error-indicator [err]="error"></app-error-indicator>
+</div>
+
 <h4>Add new question:</h4>
 
   <div class="form-group">
@@ -6,7 +10,7 @@
   </div>
   <div class="form-group">
     <label>Body</label>
-    <angular-editor [placeholder]="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
+    <angular-editor placeholder="'Enter text here...'" [(ngModel)]="htmlContent" [config]="editorConfig"></angular-editor>
   </div>
   <div class="form-group">
     <label for="cat">Categories</label>
@@ -26,7 +30,7 @@
 </div>
 
 
-  <button class="btn btn-primary float-right" (click)="add(title.value, htmlContent)">
+<button class="btn btn-primary float-right" (click)="add(title.value, htmlContent)">
     Ask Question
   </button>
 

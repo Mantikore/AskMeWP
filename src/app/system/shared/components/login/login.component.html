@@ -6,6 +6,11 @@
     <app-loader></app-loader>
 </div>
 
+<div *ngIf="error">
+  <app-error-indicator [err]="error"></app-error-indicator>
+</div>
+
+
 <div *ngIf="!isLogged && !signUpForm">
     <h5 class="text-xs-center">Log In</h5>
     <form [formGroup]="form" >

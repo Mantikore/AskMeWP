@@ -17,6 +17,7 @@ export class QuestionPageComponent implements OnInit {
     author: Author = new Author();
     isLoaded = false;
     routeId: number;
+    error: '';
 
     constructor(
       private route: ActivatedRoute,
@@ -33,10 +34,12 @@ export class QuestionPageComponent implements OnInit {
         this.authorsService.getAuthor(questionData.author.id).subscribe(authorData => {
           this.author = authorData;
           this.question.author = authorData;
-        });
+        },
+          err => this.error = err.statusText);
         this.question = questionData;
         this.isLoaded = true;
-      });
+      },
+        err => this.error = err.statusText);
     }
     ngOnInit(): void {
       this.getCurrentQuestion();

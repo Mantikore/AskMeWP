@@ -3,8 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AuthorsService } from '../shared/services/authors.service';
 import { Author } from '../shared/models/author';
 import { Question } from '../shared/models/question';
-import { Answer } from '../shared/models/answer';
-import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-author-page',
@@ -16,6 +14,7 @@ export class AuthorPageComponent implements OnInit {
   questions: Question[];
   isLoaded = false;
   pages: number;
+  error: '';
 
   constructor(
     private route: ActivatedRoute,
@@ -29,13 +28,16 @@ export class AuthorPageComponent implements OnInit {
       this.authorService.getAuthorQuestions(this.author.id).subscribe(questionsData => {
         this.questions = questionsData;
         this.isLoaded = true;
-      });
-    });
+      },
+        err => this.error = err.statusText);
+    },
+      err => this.error = err.statusText);
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.getAuthor();
-    });
+    },
+      err => this.error = err.statusText);
   }
 }

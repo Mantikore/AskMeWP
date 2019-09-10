@@ -12,6 +12,7 @@ export class GreetingsComponent implements OnInit {
 
   author = new Author();
   isLogged: boolean;
+  error = '';
 
   constructor(
       private authService: AuthService
@@ -22,7 +23,7 @@ export class GreetingsComponent implements OnInit {
       if (this.isLogged) {
         this.authService.showMe().subscribe(loggedAuthor => {
           this.author = loggedAuthor;
-        });
+        }, err => this.error = err.statusText);
       }
   }
 

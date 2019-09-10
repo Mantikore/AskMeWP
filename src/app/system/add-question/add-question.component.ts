@@ -7,6 +7,7 @@ import { Subject } from 'rxjs/index';
 import { debounceTime, distinctUntilChanged, mergeMap, switchMap } from 'rxjs/internal/operators';
 import { AuthService } from '../shared/services/auth.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Message } from '../shared/models/message.model';
 
 @Component({
     selector: 'app-add-question',
@@ -22,6 +23,7 @@ export class AddQuestionComponent implements OnInit {
     token: string;
     htmlContent: string;
     catValue: string;
+    error = '';
 
     editorConfig: AngularEditorConfig = {
         editable: true,
@@ -45,7 +47,9 @@ export class AddQuestionComponent implements OnInit {
             debounceTime(100),
             distinctUntilChanged(),
             switchMap((term: string) => this.categoriesService.searchCategories(term))
-        ).subscribe(data => this.foundedCategories = data);
+        ).subscribe(data => this.foundedCategories = data,
+                    err => this.error = err.statusText
+        );
     }
 
     search(term: string): void {
@@ -55,14 +59,13 @@ export class AddQuestionComponent implements OnInit {
     add(title, htmlContent) {
         title = title.trim();
         htmlContent = htmlContent.trim();
-        console.log(htmlContent);
         if (!htmlContent) {
             return ErrorEmpty();
         }
         this.questionsService.addQuestion(title, htmlContent, this.categories, window.localStorage.getItem('token'))
             .subscribe(question => {
                 this.router.navigate([`system/question/${question['id']}`], { queryParams: { page: 1 } });
-            }, error => console.log(error));
+            }, err => this.error = err.statusText);
         function ErrorEmpty() {
             if (!htmlContent) {
                 alert('Insert text!');

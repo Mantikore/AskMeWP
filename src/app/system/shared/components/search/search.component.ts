@@ -38,7 +38,7 @@ export class SearchComponent implements OnInit {
 
   onKeydown($event) {
     if ($event.keyCode === 40) {
-       // todo
+       // todo: check values
     }
   }
 }

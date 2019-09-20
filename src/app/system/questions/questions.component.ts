@@ -6,9 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { CategoriesService } from '../shared/services/categories.service';
 import { Category } from '../shared/models/category';
 import { AnswersService } from '../shared/services/answers.service';
-import { combineLatest, merge } from 'rxjs/index';
+import { combineLatest, merge, Observable } from 'rxjs/index';
 import { PaginationService } from '../shared/services/pagination.service';
 import { CategoriesComponent } from '../categories/categories.component';
+import { HttpResponse } from '@angular/common/http';
+import { WpPost } from '../shared/models/wp-post';
 
 @Component({
   selector: 'app-questions',
@@ -49,7 +51,7 @@ export class QuestionsComponent implements OnInit {
     pluralizeAnswers(num): string {
         return num === 1 ? 'answer' : 'answers';
     }
-    getQuestionsFromData = (data): void => {
+    getQuestionsFromData = (data: HttpResponse<WpPost[]>): void => {
         this.questions = [];
         this.questionsCount = data.body.length;
         data.body.map( item => {

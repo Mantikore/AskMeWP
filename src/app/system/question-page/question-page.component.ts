@@ -23,8 +23,7 @@ export class QuestionPageComponent implements OnInit {
       private route: ActivatedRoute,
       private router: Router,
       private questionService: QuestionsService,
-      private authorsService: AuthorsService,
-      private categoriesService: CategoriesService
+      private authorsService: AuthorsService
     ) {}
 
     getCurrentQuestion() {

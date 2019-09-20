@@ -1,3 +1,6 @@
-job:
+image: node:10
+
+test:
   script:
-    - uname -a
+    - npm install
+#    - ng test

@@ -1,0 +1,3 @@
+job:
+  script:
+    - uname -a

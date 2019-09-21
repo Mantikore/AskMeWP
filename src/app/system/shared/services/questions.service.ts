@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs/index';
+import { Observable, of } from 'rxjs';
 import { Question } from '../models/question';
 
 import * as myGlobals from './global';

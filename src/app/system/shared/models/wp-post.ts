@@ -1,4 +1,4 @@
-export interface WpPost {
+export class WpPost {
   id: number;
   date: string;
   title: {

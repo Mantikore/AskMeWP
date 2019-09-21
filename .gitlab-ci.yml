@@ -3,4 +3,4 @@ image: node:10
 test:
   script:
     - npm install
-#    - ng test
+#    - ng test --watch=false --code-coverage=true --single-run=true --browser=ChromeHeadless

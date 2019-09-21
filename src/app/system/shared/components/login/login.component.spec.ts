@@ -9,10 +9,9 @@ describe('LoginComponent', () => {
     let authorsService: AuthorsService;
 
     beforeEach(() => {
-        authService = new AuthService(null);
+        authService = new AuthService(null, null);
         authorsService = new AuthorsService(null);
         component = new LoginComponent(authService, authorsService);
     });
 
-    it('Should put username in localstorage when user try to login');
 });

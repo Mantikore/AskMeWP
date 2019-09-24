@@ -47,11 +47,10 @@ export class AuthService {
         });
     }
     jwtAuth(username, password): Observable<Object> {
-        const data = this.http.post(this.tokenUrl, {
-            username: username,
-            password: password
+        return this.http.post(this.tokenUrl, {
+          username: username,
+          password: password
         });
-        return data;
     }
     signUp(username, email, password): Observable<WpUser> {
         return this.http.post<WpUser>(this.usersUrl, {

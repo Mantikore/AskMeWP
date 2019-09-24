@@ -37,11 +37,11 @@ export class QuestionsService {
     getQuestionsPage(page): Observable<HttpResponse<WpPost[]>> {
         return this.http.get<WpPost[]>(`${this.questionsEmbedUrl}&page=${page}`, {observe: 'response'});
     }
-    addQuestion(title: string, text: string, categories, token): Observable<WpPost> {
+    addQuestion(title: string, text: string, categories, token): Observable<HttpResponse<WpPost>> {
         const headers: HttpHeaders = new HttpHeaders({
             'Authorization': 'Bearer ' + token
         });
-        return this.http.post<WpPost>(this.questionsUrl, {
+        return this.http.post<HttpResponse<WpPost>>(this.questionsUrl, {
             slug: window.localStorage.getItem('username'),
             title: title,
             content: text,

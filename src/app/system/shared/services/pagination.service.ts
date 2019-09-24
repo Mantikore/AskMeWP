@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class PaginationService {
   getPagesCount(data): number {
-    let pages = 0;
     const dataCount = data.headers.get('x-wp-total') || 0;
-    return pages = (dataCount > 10) ? Math.ceil(dataCount / 10) : 0;
+    return (dataCount > 10) ? Math.ceil(dataCount / 10) : 0;
   }
 }

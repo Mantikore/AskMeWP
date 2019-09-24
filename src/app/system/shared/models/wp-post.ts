@@ -1,4 +1,4 @@
-export class WpPost {
+export interface WpPost {
   id: number;
   date: string;
   title: {
@@ -9,6 +9,6 @@ export class WpPost {
     protected: boolean;
   };
   author: number;
-  categories: [number];
+  categories: number[];
   [props: string]: any;
 }

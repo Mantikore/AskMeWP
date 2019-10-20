@@ -4,7 +4,13 @@ cache:
   paths:
     - node_modules/
 
+before_script:
+  - npm install
+
 test:
   script:
-    - npm install
     - npm test
+
+code_quality:
+  script:
+    - npm lint

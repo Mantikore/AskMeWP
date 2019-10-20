@@ -1,4 +1,4 @@
-image: node:10
+image: circleci/node:10-browsers
 
 stages:
   - build
@@ -21,8 +21,8 @@ karma:
 #  variables:
 #    CHROME_BIN: node_modules/chromium/lib/chromium/chrome-linux/chrome
   script:
-    - apt update
-    - apt install chromium -y
+#    - apt update
+#    - apt install chromium -y
     - npm run test
 
 code_quality:

@@ -10,7 +10,7 @@ before_script:
 
 karma:
   script:
-    - npm run test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI
+    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
 code_quality:
   script:

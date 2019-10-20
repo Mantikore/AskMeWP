@@ -23,7 +23,7 @@ karma:
   script:
 #    - apt update
 #    - apt install chromium -y
-    - npm run test
+    - npm run test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI
 
 code_quality:
   stage: test

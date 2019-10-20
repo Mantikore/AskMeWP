@@ -1,31 +1,17 @@
 image: circleci/node:10-browsers
 
-stages:
-  - build
-  - test
+cache:
+  key: circleci-${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
 
-build:
-  stage: build
-  script:
-    - npm ci
-  artifacts:
-    untracked: true
-    expire_in: 8 hours
-#  cache:
-#    key: ${CI_COMMIT_REF_SLUG}
-#    paths:
-#      - node_modules/
+before_script:
+  - npm install
 
 karma:
-  stage: test
-#  variables:
-#    CHROME_BIN: node_modules/chromium/lib/chromium/chrome-linux/chrome
   script:
-#    - apt update
-#    - apt install chromium -y
     - npm run test -- --no-watch --no-progress --code-coverage --browsers=ChromeHeadlessCI
 
 code_quality:
-  stage: test
   script:
     - npm run lint

@@ -1,6 +1,17 @@
-image: node:10
+image: circleci/node:10-browsers
 
-test:
+cache:
+  key: circleci-${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - npm install
+
+karma:
   script:
-    - npm install
-#    - ng test --watch=false --code-coverage=true --single-run=true --browser=ChromeHeadless
+    - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+
+code_quality:
+  script:
+    - npm run lint

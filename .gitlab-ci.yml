@@ -1,10 +1,5 @@
 image: node:10
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - node_modules/
-
 stages:
   - build
   - test
@@ -16,13 +11,19 @@ build:
   artifacts:
     untracked: true
     expire_in: 8 hours
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
 
 karma:
   stage: test
+  variables:
+    CHROME_BIN: node_modules/chromium/lib/chromium/chrome-linux/chrome
   script:
-    - npm test
+    - npm run test
 
 code_quality:
   stage: test
   script:
-    - npm lint
+    - npm run lint

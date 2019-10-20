@@ -4,13 +4,24 @@ cache:
   paths:
     - node_modules/
 
-before_script:
-  - npm install
+stages:
+  - build
+  - test
 
-test:
+build:
+  stage: build
+  script:
+    - npm install
+  artifacts:
+    untracked: true
+    expire_in: 8 hours
+
+karma:
+  stage: test
   script:
     - npm test
 
 code_quality:
+  stage: test
   script:
     - npm lint

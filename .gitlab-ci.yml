@@ -7,7 +7,7 @@ stages:
 build:
   stage: build
   script:
-    - npm install
+    - npm ci
   artifacts:
     untracked: true
     expire_in: 8 hours
@@ -18,9 +18,11 @@ build:
 
 karma:
   stage: test
-  variables:
-    CHROME_BIN: node_modules/chromium/lib/chromium/chrome-linux/chrome
+#  variables:
+#    CHROME_BIN: node_modules/chromium/lib/chromium/chrome-linux/chrome
   script:
+    - apt update
+    - apt install chromium -y
     - npm run test
 
 code_quality:

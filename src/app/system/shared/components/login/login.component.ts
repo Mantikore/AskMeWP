@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
 import { Author } from '../../models/author';
 import { Message } from '../../models/message.model';
 import { AuthorsService } from '../../services/authors.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
     author = new Author();
@@ -20,6 +22,7 @@ export class LoginComponent implements OnInit {
     message: Message;
     signUpForm = false;
     isLoaded = true;
+    private ngUnsubscribe: Subject<void> = new Subject<void>();
 
     constructor(
         private authService: AuthService,
@@ -42,15 +45,23 @@ export class LoginComponent implements OnInit {
             }
         });
     }
+    ngOnDestroy() {
+      this.ngUnsubscribe.next();
+      this.ngUnsubscribe.complete();
+    }
 
     onLogIn(): void {
         const formData = this.form.value;
         this.error = '';
         this.isLoaded = false;
         window.localStorage.setItem('username', formData.username);
-        this.authService.jwtAuth(formData.username, formData.password).subscribe(data => {
+        this.authService.jwtAuth(formData.username, formData.password)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(data => {
             window.localStorage.setItem('token', data['token']);
-            this.authorsService.getAuthorBySlug(window.localStorage.getItem('username')).subscribe(userData => {
+            this.authorsService.getAuthorBySlug(window.localStorage.getItem('username'))
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe(userData => {
                 this.author = userData;
                 this.authService.login();
                 this.isLogged = true;

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/internal/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/internal/operators';
 import { QuestionsService } from '../../services/questions.service';
 import { Question } from '../../models/question';
 import { Subject } from 'rxjs/index';
@@ -9,17 +9,19 @@ import { Subject } from 'rxjs/index';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
     private searchTerms = new Subject<string>();
     foundedQuestions: Question[] = [];
     nothingFound: Boolean = false;
-
+    private ngUnsubscribe: Subject<void> = new Subject<void>();
 
     constructor(private questionsService: QuestionsService) { }
 
   ngOnInit() {
-      this.searchTerms.pipe(
+      this.searchTerms
+        .pipe(
+          takeUntil(this.ngUnsubscribe),
           debounceTime(100),
           distinctUntilChanged(),
           switchMap((term: string) => this.questionsService.searchQuestions(term))
@@ -31,7 +33,10 @@ export class SearchComponent implements OnInit {
         }
       });
   }
-
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
+  }
   search(term: string): void {
       this.searchTerms.next(term);
   }

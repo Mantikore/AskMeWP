@@ -139,5 +139,11 @@ describe('QuestionsComponent', () => {
     expect(component.pluralizeAnswers(1)).toBe('answer');
     expect(component.pluralizeAnswers(3)).toBe('answers');
   });
+  it('react on errors', () => {
+    component.getError({ statusText: 'Error' });
+    fixture.detectChanges();
+    expect(component.error).toBe('Error');
+    expect(component.isLoaded).toBe(true);
+  });
 
 });

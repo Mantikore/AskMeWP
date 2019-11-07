@@ -1,11 +1,12 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AnswersService } from '../shared/services/answers.service';
 import { Answer } from '../shared/models/answer';
 import { AuthService } from '../shared/services/auth.service';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { PaginationService } from '../shared/services/pagination.service';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { PaginationService } from '../shared/services/pagination.service';
     templateUrl: './answers.component.html',
     styleUrls: ['./answers.component.scss']
 })
-export class AnswersComponent implements OnInit {
+export class AnswersComponent implements OnInit, OnDestroy {
 
     @Input() qid: number;
     answers: Answer[];
@@ -22,6 +23,7 @@ export class AnswersComponent implements OnInit {
     pages: number;
     htmlContent: string;
     error = '';
+    private ngUnsubscribe: Subject<void> = new Subject<void>();
 
     editorConfig: AngularEditorConfig = {
         editable: true,
@@ -39,11 +41,16 @@ export class AnswersComponent implements OnInit {
         private route: ActivatedRoute,
         private paginationService: PaginationService
     ) {}
+
     getAnswers(): void {
-        combineLatest(this.route.queryParams, this.route.params).subscribe(([paramsPage, paramsId]) => {
+        combineLatest(this.route.queryParams, this.route.params)
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(([paramsPage, paramsId]) => {
             const page = paramsPage.page;
             const id = paramsId.id;
-            this.answersService.getAnswersPage(id, page).subscribe(data => {
+            this.answersService.getAnswersPage(id, page)
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe(data => {
                 this.answers = [];
                 this.isLogged = this.authService.isLogged();
                 data.body.map(item => {
@@ -69,6 +76,7 @@ export class AnswersComponent implements OnInit {
             return ErrorEmpty();
         }
         this.answersService.addAnswer(text, this.qid, window.localStorage.getItem('token'))
+            .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe(answer => {
                 this.getAnswers();
             },
@@ -81,6 +89,12 @@ export class AnswersComponent implements OnInit {
     }
     ngOnInit() {
         this.getAnswers();
-        this.authService.isLoggedIn$.subscribe(isLogged => this.isLogged = isLogged, err => this.error = err.statusText);
+        this.authService.isLoggedIn$
+          .pipe(takeUntil(this.ngUnsubscribe))
+          .subscribe(isLogged => this.isLogged = isLogged, err => this.error = err.statusText);
+    }
+    ngOnDestroy() {
+      this.ngUnsubscribe.next();
+      this.ngUnsubscribe.complete();
     }
 }

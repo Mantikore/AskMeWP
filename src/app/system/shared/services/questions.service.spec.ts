@@ -3,6 +3,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import {WpPost} from '../models/wp-post';
 import { asyncData, asyncError } from '../../../../testing/async-observable-helpers';
 import {Question} from '../models/question';
+import { async } from '@angular/core/testing';
 
 const expectedQuestions = [
   {
@@ -97,7 +98,7 @@ describe('QuestionsService', () => {
     expect(httpClientSpy.get.calls.count()).toBe(1, 'one call');
   });
 
-  it('should return an error when the server returns a 404', () => {
+  it('should return an error when the server returns a 404', async(() => {
     const errorResponse = new HttpErrorResponse({
       error: 'test 404 error',
       status: 404, statusText: 'Not Found'
@@ -109,8 +110,8 @@ describe('QuestionsService', () => {
       questions => fail('expected an error, not questions'),
       error  => expect(error.error).toContain('test 404 error')
     );
-  });
-  it('should add new question', () => {
+  }));
+  it('should add new question', async(() => {
 
     const response: HttpResponse<WpPost> = new HttpResponse<WpPost>({body: expectedQuestion});
 
@@ -124,5 +125,5 @@ describe('QuestionsService', () => {
       fail
     );
     expect(httpClientSpy.post.calls.count()).toBe(1, 'one call');
-  });
+  }));
 });

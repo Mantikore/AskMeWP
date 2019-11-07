@@ -12,7 +12,6 @@ export class HeaderComponent implements OnInit {
     public innerWidth: any;
     error = '';
 
-
     constructor(
         private authService: AuthService
     ) {}
@@ -25,5 +24,4 @@ export class HeaderComponent implements OnInit {
     onResize(event) {
         this.innerWidth = window.innerWidth;
     }
-
 }

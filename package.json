@@ -25,7 +25,7 @@
     "bootstrap-sass": "^3.3.7",
     "class-transformer": "^0.2.3",
     "core-js": "^2.5.4",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "ng6x-editor": "^4.0.2",
     "ngx-editor": "^4.1.0",
     "prismjs": "^1.15.0",
